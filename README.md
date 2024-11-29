@@ -59,9 +59,10 @@ Embers of the Abyss uses pixel art to bring its world to life. For all game art 
 
 3. **Dont forget to initialize Saxion Library:**
    Press Ctrl+Shift+P (Windows/Linux) or Cmd+Shift+P (Mac) to open the Command Palette.
-   • Type **Java: Configure Java Runtime** and select it.
-   • Click on Libraries and Add library and select `Saxionapp.java` file
-   • Click Apply and you should have generated file `.vscode`
+
+   - Type **Java: Configure Java Runtime** and select it.
+   - Click on Libraries and Add library and select `Saxionapp.java` file
+   - Click Apply and you should have generated file `.vscode`
 
 4. **Build and Run**:
    - Compile and run `Main.java` to test your setup.
