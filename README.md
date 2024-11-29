@@ -55,7 +55,8 @@ Embers of the Abyss uses pixel art to bring its world to life. For all game art 
 2. **Open in VS Code** (or your preferred IDE):
 
    - Open the project folder in VS Code.
-   - Make sure the Java Extension Pack is installed if you're using VS Code -**Dont forget to initialize Saxion Library:**
+   - Make sure the Java Extension Pack is installed if you're using VS Code
+     **Dont forget to initialize Saxion Library:**
      Press Ctrl+Shift+P (Windows/Linux) or Cmd+Shift+P (Mac) to open the Command Palette.
      • Type **Java: Configure Java Runtime** and select it.
      • Click on Libraries and Add library and select `Saxionapp.java` file
