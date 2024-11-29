@@ -111,3 +111,4 @@ Embers of the Abyss uses pixel art to bring its world to life. For all game art 
 7. **Merging `dev` to `main`:**:
    - Only after thorough testing, the dev branch can be merged into main.
    - Open a PR for dev → main and wait for final approval.
+   - 
