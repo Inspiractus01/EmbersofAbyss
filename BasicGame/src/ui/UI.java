@@ -1,3 +1,5 @@
+package ui;
+
 import nl.saxion.app.SaxionApp;
 
 import java.awt.*;

@@ -1,3 +1,5 @@
+package entity;
+
 import nl.saxion.app.SaxionApp;
 import nl.saxion.app.interaction.KeyboardEvent;
 

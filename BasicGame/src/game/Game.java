@@ -1,6 +1,10 @@
+package game;
+
 import nl.saxion.app.interaction.GameLoop;
 import nl.saxion.app.interaction.KeyboardEvent;
 import nl.saxion.app.interaction.MouseEvent;
+import ui.UI;
+import entity.Player;
 import nl.saxion.app.SaxionApp;
 
 public class Game implements GameLoop {
