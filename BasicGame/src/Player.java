@@ -93,7 +93,8 @@ public class Player {
             activeKeys.add(keyCode); // Add the key to active keys
 
             // Handle jumping
-            if (keyCode == KeyEvent.VK_W && !isJumping && canJump && stamina >= staminaDepletion) {
+            if ((keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_SPACE) && !isJumping && canJump
+                    && stamina >= staminaDepletion) {
                 isJumping = true; // Start jumping
                 verticalVelocity = -20; // Initial upward velocity
                 stamina -= staminaDepletion; // Decrease stamina
