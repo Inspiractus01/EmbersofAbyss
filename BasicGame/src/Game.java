@@ -9,7 +9,7 @@ public class Game implements GameLoop {
 
     @Override
     public void init() {
-        SaxionApp.printLine("Use A (left), D (right), and W (jump) keys to control the square.");
+        SaxionApp.printLine("Use A (left), D (right), and W (jump) keys to control the square."); // USELESS BTW
     }
 
     @Override
