@@ -67,12 +67,12 @@ public class Player {
         // Handle stamina regeneration
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastStaminaChange >= staminaRegenDelay && stamina < maxStamina) {
-            if (currentTime - lastStaminaChange >= 200) { // Regenerate every 200ms
-                stamina += 10; // Regenerate 10 stamina points
+            if (currentTime - lastStaminaChange >= 20) { // Regenerate every 200ms
+                stamina += 1; // Regenerate 10 stamina points
                 if (stamina > maxStamina) {
                     stamina = maxStamina; // Cap stamina to max level
                 }
-                lastStaminaChange += 200; // Increment last stamina change
+                lastStaminaChange += 10; // Increment last stamina change
             }
         }
     }
