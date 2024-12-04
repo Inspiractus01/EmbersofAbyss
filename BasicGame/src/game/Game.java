@@ -5,10 +5,12 @@ import nl.saxion.app.interaction.KeyboardEvent;
 import nl.saxion.app.interaction.MouseEvent;
 import ui.UI;
 import entity.Player;
+import entity.Enemy;
 import nl.saxion.app.SaxionApp;
 
 public class Game implements GameLoop {
     private final Player player = new Player();
+    private final Enemy enemy = new Enemy();
     private final UI ui = new UI();
 
     @Override
@@ -21,6 +23,7 @@ public class Game implements GameLoop {
         SaxionApp.clear();
 
         // Update and render the player
+        enemy.draw();
         player.update();
         player.render();
 
