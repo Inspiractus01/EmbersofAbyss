@@ -20,8 +20,12 @@ public class Game implements GameLoop {
     @Override
     public void init() {
         enemies = new ArrayList<>();
-        enemies.add(new Enemy(700, 500));
-        enemies.add(new Enemy(800, 500));
+        enemies.add(new Enemy(700, 500, this));
+        enemies.add(new Enemy(800, 500, this));
+    }
+
+    public void removeEnemy(Enemy enemy) {
+        enemies.remove(enemy);
     }
 
     @Override
@@ -37,7 +41,9 @@ public class Game implements GameLoop {
         ui.drawStaminaBar(player.getStamina(), player.getMaxStamina());
 
         for (Enemy enemy : enemies) {
-            enemy.draw();
+            if (!enemy.isDead()) { // Skip dead enemies
+                enemy.draw();
+            }
         }
     }
 

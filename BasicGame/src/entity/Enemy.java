@@ -5,14 +5,19 @@ import nl.saxion.app.SaxionApp;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+import game.Game;
+
 public class Enemy {
     private int x, y; // Enemy position
-    private int width = 20, height = 20; // Enemy dimensions
-    private int health = 30; // Enemy health
+    private int width = 50, height = 50; // Enemy dimensions
+    private int health = 50; // Enemy health
+    private Game game;
+    private boolean isDead = false;
 
-    public Enemy(int startX, int startY) {
+    public Enemy(int startX, int startY, Game game) {
         this.x = startX;
         this.y = startY;
+        this.game = game;
     }
 
     public void takeDamage(int damage) {
@@ -23,16 +28,31 @@ public class Enemy {
     }
 
     private void die() {
-        System.out.println("Enemy defeated!");
-        // Additional logic for removing the enemy from the game can go here
+        isDead = true; // Mark the enemy as dead
+        System.out.println("Enemy marked as dead");
     }
+
+    public boolean isDead() {
+        return isDead;
+    }
+    
+    public int getHealth() {
+        return health;
+    }
+
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+        if (isDead) {
+            return new Rectangle(0, 0, 0, 0); // Return an empty rectangle when dead
+        }
+        return new Rectangle(x, y, width, height); // Actual hitbox when alive
     }
+    
 
     public void draw() {
-        SaxionApp.setFill(Color.red);
-        SaxionApp.drawRectangle(x, y, width, height);
+        if (!isDead) {
+            SaxionApp.setFill(Color.red);
+            SaxionApp.drawRectangle(x, y, health, height);
+        }
     }
 }
