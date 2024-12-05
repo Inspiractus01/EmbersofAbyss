@@ -23,6 +23,8 @@ public class Player {
     private boolean isJumping = false; // Whether the player is currently jumping
     private boolean canJump = true; // Whether the player can jump (cooldown logic)
     private long lastJumpTime = 0; // Timestamp of the last jump
+    private int direction = 1; // 1 for facing right, -1 for facing left
+
 
     private final Set<Integer> activeKeys = new HashSet<>(); // Tracks currently pressed keys
     private int stamina = 100; // Current stamina level
@@ -49,9 +51,11 @@ public class Player {
         // Handle horizontal movement
         if (activeKeys.contains(KeyEvent.VK_A)) {
             x -= moveSpeed; // Move left
+            direction = -1; // Face left
         }
         if (activeKeys.contains(KeyEvent.VK_D)) {
             x += moveSpeed; // Move right
+            direction = 1; // Face right
         }
 
         // Handle jumping and gravity
@@ -87,7 +91,7 @@ public class Player {
         }
 
         // Handle basic attack
-        if (activeKeys.contains(KeyEvent.VK_Q) && System.currentTimeMillis() - lastAttackTime > attackCooldown) {
+        if (activeKeys.contains(KeyEvent.VK_K) && System.currentTimeMillis() - lastAttackTime > attackCooldown) {
             attack(enemies);
         }
     }
