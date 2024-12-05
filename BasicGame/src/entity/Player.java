@@ -3,13 +3,14 @@ package entity;
 import nl.saxion.app.SaxionApp;
 import nl.saxion.app.interaction.KeyboardEvent;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.Console;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
- * Player class to manage the player's movement, jumping, stamina, and health.
+ * Player class to manage the player's movement, jumping, stamina, health, and attacking logic.
  */
 public class Player {
     private int x = 500; // X position of the player
@@ -33,15 +34,18 @@ public class Player {
     private int health = 100; // Current health level
 
     private boolean isAttacking = false; // Tracks if the player is attacking
-    private int attackRange = 20; // Example range of the attack
-    private int attackCooldown = 500; // Cooldown in milliseconds
+    private final int attackRange = 20; // Attack range
+    private final int attackWidth = 30; // Width of the attack hitbox
+    private final int attackHeight = 10; // Height of the attack hitbox
+    private final int attackCooldown = 500; // Cooldown in milliseconds
     private long lastAttackTime = 0; // Tracks the last attack time
 
     /**
-     * Updates the player's state, including movement, jumping, gravity, and stamina
-     * regeneration.
+     * Updates the player's state, including movement, jumping, gravity, stamina regeneration, and attacks.
+     *
+     * @param enemies List of enemies to check for collisions during attacks.
      */
-    public void update() {
+    public void update(List<Enemy> enemies) {
         // Handle horizontal movement
         if (activeKeys.contains(KeyEvent.VK_A)) {
             x -= moveSpeed; // Move left
@@ -74,7 +78,7 @@ public class Player {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastStaminaChange >= staminaRegenDelay && stamina < maxStamina) {
             if (currentTime - lastStaminaChange >= 20) { // Regenerate every 200ms
-                stamina += 1; // Regenerate 10 stamina points
+                stamina += 1; // Regenerate stamina points
                 if (stamina > maxStamina) {
                     stamina = maxStamina; // Cap stamina to max level
                 }
@@ -84,15 +88,33 @@ public class Player {
 
         // Handle basic attack
         if (activeKeys.contains(KeyEvent.VK_Q) && System.currentTimeMillis() - lastAttackTime > attackCooldown) {
-            attack();
+            attack(enemies);
         }
     }
 
-
-    public void attack() {
+    /**
+     * Executes the player's attack, checking for collisions with enemies.
+     *
+     * @param enemies List of enemies to check for collisions.
+     */
+    public void attack(List<Enemy> enemies) {
         isAttacking = true;
         lastAttackTime = System.currentTimeMillis();
-        SaxionApp.drawRectangle(x + attackRange, y, 10, 10);
+
+        // Define the attack hitbox
+        Rectangle attackHitbox = new Rectangle(x + size, y, attackWidth, attackHeight);
+
+        // Check for collisions with enemies
+        for (Enemy enemy : enemies) {
+            if (attackHitbox.intersects(enemy.getBounds())) {
+                enemy.takeDamage(10); // Deal damage to the enemy
+            }
+        }
+
+        // Visualize the attack hitbox
+        SaxionApp.setFill(Color.RED);
+        SaxionApp.drawRectangle(attackHitbox.x, attackHitbox.y, attackHitbox.width, attackHitbox.height);
+
         isAttacking = false;
     }
 
@@ -100,13 +122,14 @@ public class Player {
      * Renders the player as a rectangle on the screen.
      */
     public void render() {
+        SaxionApp.setFill(Color.BLUE); // Set player color
         SaxionApp.drawRectangle(x, y, size, size);
     }
 
     /**
      * Handles keyboard input for player actions such as moving and jumping.
      *
-     * @param keyboardEvent The keyboard event triggering this method
+     * @param keyboardEvent The keyboard event triggering this method.
      */
     public void handleKeyboard(KeyboardEvent keyboardEvent) {
         int keyCode = keyboardEvent.getKeyCode();
@@ -127,21 +150,21 @@ public class Player {
     }
 
     /**
-     * @return Current health level
+     * @return Current health level.
      */
     public int getHealth() {
         return health;
     }
 
     /**
-     * @return Current stamina level
+     * @return Current stamina level.
      */
     public int getStamina() {
         return stamina;
     }
 
     /**
-     * @return Maximum stamina level
+     * @return Maximum stamina level.
      */
     public int getMaxStamina() {
         return maxStamina;
