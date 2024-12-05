@@ -37,8 +37,8 @@ public class Player {
 
     private boolean isAttacking = false; // Tracks if the player is attacking
     private final int attackRange = 20; // Attack range
-    private final int attackWidth = 30; // Width of the attack hitbox
-    private final int attackHeight = 10; // Height of the attack hitbox
+    private final int attackWidth = 40; // Width of the attack hitbox
+    private final int attackHeight = 50; // Height of the attack hitbox
     private final int attackCooldown = 500; // Cooldown in milliseconds
     private long lastAttackTime = 0; // Tracks the last attack time
 
