@@ -9,8 +9,8 @@ import game.Game;
 
 public class Enemy {
     private int x, y; // Enemy position
-    private int width = 50, height = 50; // Enemy dimensions
-    private int health = 50; // Enemy health
+    private int size = 50; // Enemy dimensions
+    private int health = 30; // Enemy health
     private Game game;
     private boolean isDead = false;
 
@@ -45,14 +45,14 @@ public class Enemy {
         if (isDead) {
             return new Rectangle(0, 0, 0, 0); // Return an empty rectangle when dead
         }
-        return new Rectangle(x, y, width, height); // Actual hitbox when alive
+        return new Rectangle(x, y, size, size); // Actual hitbox when alive
     }
     
 
     public void draw() {
         if (!isDead) {
             SaxionApp.setFill(Color.red);
-            SaxionApp.drawRectangle(x, y, health, height);
+            SaxionApp.drawRectangle(x, y, size, size);
         }
     }
 }
