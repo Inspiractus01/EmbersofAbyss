@@ -4,6 +4,7 @@ import nl.saxion.app.SaxionApp;
 import nl.saxion.app.interaction.KeyboardEvent;
 
 import java.awt.event.KeyEvent;
+import java.io.Console;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,6 +31,11 @@ public class Player {
     private final int staminaRegenDelay = 3000; // Delay (in ms) before stamina starts regenerating
 
     private int health = 100; // Current health level
+
+    private boolean isAttacking = false; // Tracks if the player is attacking
+    private int attackRange = 20; // Example range of the attack
+    private int attackCooldown = 500; // Cooldown in milliseconds
+    private long lastAttackTime = 0; // Tracks the last attack time
 
     /**
      * Updates the player's state, including movement, jumping, gravity, and stamina
@@ -75,6 +81,19 @@ public class Player {
                 lastStaminaChange += 10; // Increment last stamina change
             }
         }
+
+        // Handle basic attack
+        if (activeKeys.contains(KeyEvent.VK_Q) && System.currentTimeMillis() - lastAttackTime > attackCooldown) {
+            attack();
+        }
+    }
+
+
+    public void attack() {
+        isAttacking = true;
+        lastAttackTime = System.currentTimeMillis();
+        SaxionApp.drawRectangle(x + attackRange, y, 10, 10);
+        isAttacking = false;
     }
 
     /**
