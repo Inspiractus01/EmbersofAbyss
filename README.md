@@ -111,4 +111,19 @@ Embers of the Abyss uses pixel art to bring its world to life. For all game art 
 7. **Merging `dev` to `main`:**:
    - Only after thorough testing, the dev branch can be merged into main.
    - Open a PR for dev → main and wait for final approval.
-   - 
+
+### Naming branches !
+8. Rules for Naming Branches
+-----------------------------
+Always name branches using this format:
+task/#<task_number>/<branch_name>
+
+- **Task Number**: Found on Trello.  
+- **Branch Name**: Short, descriptive, lowercase, with words separated by hyphens (`-`).
+
+**Example**:  
+task/#18/adding-new-feature
+
+This ensures the repository stays organized and easy to navigate.
+
+
