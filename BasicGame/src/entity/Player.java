@@ -41,6 +41,7 @@ public class Player {
     private final int attackHeight = 50; // Height of the attack hitbox
     private final int attackCooldown = 500; // Cooldown in milliseconds
     private long lastAttackTime = 0; // Tracks the last attack time
+    private String path = "assets/images/main.png";
 
     /**
      * Updates the player's state, including movement, jumping, gravity, stamina regeneration, and attacks.
@@ -126,8 +127,7 @@ public class Player {
      * Renders the player as a rectangle on the screen.
      */
     public void render() {
-        SaxionApp.setFill(Color.BLUE); // Set player color
-        SaxionApp.drawRectangle(x, y, size, size);
+        SaxionApp.drawImage(path, x, y, size, size);
     }
 
     /**
