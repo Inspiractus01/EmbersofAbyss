@@ -25,7 +25,7 @@ public class Player {
     private final int staminaDepletion = 20;
     private long lastStaminaChange = 0;
     private final int staminaRegenDelay = 3000;
-    private boolean hasJumped = false; // New flag to track jump initiation
+    private boolean hasJumped = false; // Flag to track jump initiation
     private int health = 100;
     private final int attackCooldown = 500;
     private long lastAttackTime = 0;
@@ -61,7 +61,9 @@ public class Player {
                         // Stop upward movement upon collision with ceiling tile
                         y = tileBounds.y + tileBounds.height;
                         verticalVelocity = 0; // Reset the vertical velocity
-                        isJumping = false; // Stop jumping effect
+                        isJumping = false;
+                        canJump = false; // Prevent immediate jump
+                        lastJumpTime = System.currentTimeMillis(); // Set the lastJumpTime to start the cooldown
                         break;
                     }
                 }
@@ -90,7 +92,9 @@ public class Player {
 
         // Cool down jumping
         if (!canJump && System.currentTimeMillis() - lastJumpTime >= 500) {
-            canJump = true;
+            if (isOnGround(tiles)) { // Ensure player is on the ground before allowing jump reset
+                canJump = true;
+            }
         }
 
         // Initiate a jump
@@ -179,7 +183,9 @@ public class Player {
             }
         } else {
             activeKeys.remove(keyCode);
-            hasJumped = false; // Reset when the key is released
+            if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_SPACE) {
+                hasJumped = false;
+            }
         }
     }
 
