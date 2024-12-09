@@ -1,17 +1,14 @@
 package game;
 
-import entity.Enemy;
-import entity.Player;
-import entity.Tile;
-import nl.saxion.app.SaxionApp;
 import nl.saxion.app.interaction.GameLoop;
 import nl.saxion.app.interaction.KeyboardEvent;
 import nl.saxion.app.interaction.MouseEvent;
 import ui.UI;
-
 import java.util.ArrayList;
 import java.util.List;
-
+import entity.Enemy;
+import entity.Player;
+import nl.saxion.app.SaxionApp;
 
 public class Game implements GameLoop {
     private final Player player = new Player();
@@ -22,7 +19,7 @@ public class Game implements GameLoop {
     @Override
     public void init() {
         level = new Level("BasicGame/src/game/level1.map", this);
-        enemies = level.getEnemies(); // Initialize enemies from the level
+        enemies = level.getEnemies(); // Load enemies from level
     }
 
     public void removeEnemy(Enemy enemy) {

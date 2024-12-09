@@ -1,16 +1,14 @@
 package entity;
 
 import nl.saxion.app.SaxionApp;
-
 import java.awt.Color;
 import java.awt.Rectangle;
-
 import game.Game;
 
 public class Enemy {
-    private int x, y; // Enemy position
-    private int size = 50; // Enemy dimensions
-    private int health = 30; // Enemy health
+    private int x, y;
+    private int size = 50;
+    private int health = 30;
     private Game game;
     private boolean isDead = false;
 
@@ -28,26 +26,20 @@ public class Enemy {
     }
 
     private void die() {
-        isDead = true; // Mark the enemy as dead
+        isDead = true;
         System.out.println("Enemy marked as dead");
     }
 
     public boolean isDead() {
         return isDead;
     }
-    
-    public int getHealth() {
-        return health;
-    }
-
 
     public Rectangle getBounds() {
         if (isDead) {
-            return new Rectangle(0, 0, 0, 0); // Return an empty rectangle when dead
+            return new Rectangle(0, 0, 0, 0);
         }
-        return new Rectangle(x, y, size, size); // Actual hitbox when alive
+        return new Rectangle(x, y, size, size);
     }
-    
 
     public void draw() {
         if (!isDead) {
