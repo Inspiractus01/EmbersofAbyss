@@ -1,7 +1,8 @@
-package game;
+package map;
 
 import entity.Enemy;
-import entity.Tile;
+import game.Game;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

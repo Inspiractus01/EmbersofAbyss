@@ -1,10 +1,11 @@
 package game;
 
+import map.Level;
 import nl.saxion.app.interaction.GameLoop;
 import nl.saxion.app.interaction.KeyboardEvent;
 import nl.saxion.app.interaction.MouseEvent;
 import ui.UI;
-import java.util.ArrayList;
+
 import java.util.List;
 import entity.Enemy;
 import entity.Player;
@@ -18,7 +19,7 @@ public class Game implements GameLoop {
 
     @Override
     public void init() {
-        level = new Level("BasicGame/src/game/level1.map", this);
+        level = new Level("BasicGame/levels/level1.map", this);
         enemies = level.getEnemies(); // Load enemies from level
     }
 

@@ -1,4 +1,4 @@
-package entity;
+package map;
 
 import nl.saxion.app.SaxionApp;
 import java.awt.Color;

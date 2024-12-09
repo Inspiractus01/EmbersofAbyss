@@ -1,5 +1,6 @@
 package entity;
 
+import map.Tile;
 import nl.saxion.app.SaxionApp;
 import nl.saxion.app.interaction.KeyboardEvent;
 import java.awt.*;
@@ -31,7 +32,7 @@ public class Player {
     private long lastAttackTime = 0;
     private String path = "assets/images/main.png";
 
-    public void update(List<Enemy> enemies, List<entity.Tile> tiles) {
+    public void update(List<Enemy> enemies, List<Tile> tiles) {
         // Handle horizontal movement
         if (activeKeys.contains(KeyEvent.VK_A)) {
             if (!willCollide(x - moveSpeed, y, tiles)) {
@@ -130,7 +131,7 @@ public class Player {
         }
     }
 
-    private boolean willCollide(int futureX, int futureY, List<entity.Tile> tiles) {
+    private boolean willCollide(int futureX, int futureY, List<Tile> tiles) {
         Rectangle futureBounds = new Rectangle(futureX, futureY, size, size);
         for (Tile tile : tiles) {
             if (tile.isSolid() && futureBounds.intersects(tile.getBounds())) {
@@ -140,7 +141,7 @@ public class Player {
         return false;
     }
 
-    private boolean isOnGround(List<entity.Tile> tiles) {
+    private boolean isOnGround(List<Tile> tiles) {
         Rectangle belowBounds = new Rectangle(x, y + size + 1, size, 2); // Check slightly below the player
         for (Tile tile : tiles) {
             if (tile.isSolid() && belowBounds.intersects(tile.getBounds())) {
