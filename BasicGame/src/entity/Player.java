@@ -25,6 +25,7 @@ public class Player {
     private final int staminaDepletion = 20;
     private long lastStaminaChange = 0;
     private final int staminaRegenDelay = 3000;
+    private boolean hasJumped = false; // New flag to track jump initiation
     private int health = 100;
     private final int attackCooldown = 500;
     private long lastAttackTime = 0;
@@ -49,15 +50,36 @@ public class Player {
         if (isJumping || !isOnGround(tiles)) {
             y += verticalVelocity;
             verticalVelocity += gravity; // Simulate gravity
+
+            // Check for collision when moving upwards
+            if (verticalVelocity < 0) {
+                for (Tile tile : tiles) {
+                    Rectangle tileBounds = tile.getBounds();
+                    Rectangle playerBoundsWithVelocity = new Rectangle(x, y + verticalVelocity, size, size);
+
+                    if (tile.isSolid() && playerBoundsWithVelocity.intersects(tileBounds)) {
+                        // Stop upward movement upon collision with ceiling tile
+                        y = tileBounds.y + tileBounds.height;
+                        verticalVelocity = 0; // Reset the vertical velocity
+                        isJumping = false; // Stop jumping effect
+                        break;
+                    }
+                }
+            }
         } else {
             verticalVelocity = 0; // Reset vertical velocity if on ground
         }
 
         // Resolve landing
-        if (isJumping && verticalVelocity > 0) {
+        if (verticalVelocity > 0) {
             for (Tile tile : tiles) {
-                if (tile.isSolid() && new Rectangle(x, y + verticalVelocity, size, size).intersects(tile.getBounds())) {
-                    y = tile.getBounds().y - size; // Place player on top of the tile
+                Rectangle tileBounds = tile.getBounds();
+                Rectangle playerBoundsWithVelocity = new Rectangle(x, y + verticalVelocity, size, size);
+
+                if (tile.isSolid() && playerBoundsWithVelocity.intersects(tileBounds)) {
+                    // Align the player precisely on top of the tile
+                    y = tileBounds.y - size;
+                    verticalVelocity = 0; // Reset velocity since player is landing
                     isJumping = false;
                     canJump = false;
                     lastJumpTime = System.currentTimeMillis();
@@ -73,11 +95,17 @@ public class Player {
 
         // Initiate a jump
         if (!isJumping && canJump && (activeKeys.contains(KeyEvent.VK_W) || activeKeys.contains(KeyEvent.VK_SPACE))
-                && stamina >= staminaDepletion) {
+                && stamina >= staminaDepletion && !hasJumped) {
             isJumping = true;
+            hasJumped = true; // Mark jump initiation
             verticalVelocity = -20;
             stamina -= staminaDepletion;
             lastStaminaChange = System.currentTimeMillis();
+        }
+
+        // Reset hasJumped when keys are released
+        if (!(activeKeys.contains(KeyEvent.VK_W) || activeKeys.contains(KeyEvent.VK_SPACE))) {
+            hasJumped = false;
         }
 
         // Regenerate stamina
@@ -109,7 +137,7 @@ public class Player {
     }
 
     private boolean isOnGround(List<entity.Tile> tiles) {
-        Rectangle belowBounds = new Rectangle(x, y + 1, size, size);
+        Rectangle belowBounds = new Rectangle(x, y + size + 1, size, 2); // Check slightly below the player
         for (Tile tile : tiles) {
             if (tile.isSolid() && belowBounds.intersects(tile.getBounds())) {
                 return true;
@@ -142,14 +170,16 @@ public class Player {
         if (keyboardEvent.isKeyPressed()) {
             activeKeys.add(keyCode);
             if ((keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_SPACE) && !isJumping && canJump
-                    && stamina >= staminaDepletion) {
+                    && stamina >= staminaDepletion && !hasJumped) {
                 isJumping = true;
+                hasJumped = true;
                 verticalVelocity = -20;
                 stamina -= staminaDepletion;
                 lastStaminaChange = System.currentTimeMillis();
             }
         } else {
             activeKeys.remove(keyCode);
+            hasJumped = false; // Reset when the key is released
         }
     }
 
