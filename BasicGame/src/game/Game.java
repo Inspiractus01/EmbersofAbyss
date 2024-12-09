@@ -1,5 +1,9 @@
 package game;
 
+import entity.Enemy;
+import entity.Player;
+import entity.Tile;
+import nl.saxion.app.SaxionApp;
 import nl.saxion.app.interaction.GameLoop;
 import nl.saxion.app.interaction.KeyboardEvent;
 import nl.saxion.app.interaction.MouseEvent;
@@ -8,20 +12,17 @@ import ui.UI;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Enemy;
-import entity.Player;
-import nl.saxion.app.SaxionApp;
 
 public class Game implements GameLoop {
     private final Player player = new Player();
     private final UI ui = new UI();
     private List<Enemy> enemies;
+    private Level level;
 
     @Override
     public void init() {
-        enemies = new ArrayList<>();
-        enemies.add(new Enemy(700, 500, this));
-        enemies.add(new Enemy(800, 500, this));
+        level = new Level("BasicGame/src/game/level1.map", this);
+        enemies = level.getEnemies(); // Initialize enemies from the level
     }
 
     public void removeEnemy(Enemy enemy) {
@@ -32,8 +33,11 @@ public class Game implements GameLoop {
     public void loop() {
         SaxionApp.clear();
 
+        // Draw the level
+        level.draw();
+
         // Update and render the player
-        player.update(enemies);
+        player.update(enemies, level.getTiles());
         player.render();
 
         // Draw the UI elements
@@ -41,7 +45,7 @@ public class Game implements GameLoop {
         ui.drawStaminaBar(player.getStamina(), player.getMaxStamina());
 
         for (Enemy enemy : enemies) {
-            if (!enemy.isDead()) { // Skip dead enemies
+            if (!enemy.isDead()) {
                 enemy.draw();
             }
         }
