@@ -1,6 +1,5 @@
 package map;
 
-import nl.saxion.app.SaxionApp;
 import java.awt.Rectangle;
 
 public abstract class Tile {
