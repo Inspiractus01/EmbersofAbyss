@@ -14,8 +14,8 @@ public class Player {
     private int y = 500;
     private final int size = 50;
     private final int moveSpeed = 4;
-    private int verticalVelocity = 0;
-    private final double gravity = 1.6;
+    private int verticalVelocity = -20;
+    private final int gravity = 3;
     private boolean isJumping = false;
     private boolean canJump = true;
     private long lastJumpTime = 0;
@@ -49,8 +49,8 @@ public class Player {
 
         // Update vertical movement
         if (isJumping || !isOnGround(tiles)) {
-            y += verticalVelocity;
-            verticalVelocity += gravity; // Simulate gravity
+            y += verticalVelocity / 2;
+            verticalVelocity += gravity / 2; // Simulate gravity
 
             // Check for collision when moving upwards
             if (verticalVelocity < 0) {
