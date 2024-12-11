@@ -9,13 +9,11 @@ public class Enemy {
     private int x, y;
     private int size = 50;
     private int health = 30;
-    private Game game;
     private boolean isDead = false;
 
     public Enemy(int startX, int startY, Game game) {
         this.x = startX;
         this.y = startY;
-        this.game = game;
     }
 
     public void takeDamage(int damage) {
