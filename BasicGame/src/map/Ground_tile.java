@@ -6,7 +6,7 @@ public class Ground_tile extends Tile {
         super(x, y, width, height, solid);
     }
 
-    String path = "assets/images/tiles/ground_tile.png";
+    String path = "assets/images/tiles/ground_tile2.png";
 
     @Override
     public void draw() {
