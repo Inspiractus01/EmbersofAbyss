@@ -1,1 +1,16 @@
-.vscode/
+# Ignore all .class files
+*.class
+
+# Ignore IntelliJ IDEA specific files
+*.xml
+
+# Ignore output folder
+out/
+
+# Ignore YAML files (if not needed)
+*.yaml
+
+# Ignore other temporary or build files (optional)
+*.log
+*.tmp
+*.cache
