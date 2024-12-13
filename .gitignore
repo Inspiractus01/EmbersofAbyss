@@ -1,5 +1,6 @@
 # Ignore all .class files
 *.class
+.vscode/
 
 # Ignore IntelliJ IDEA specific files
 *.xml
