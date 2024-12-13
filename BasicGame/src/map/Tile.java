@@ -1,12 +1,10 @@
 package map;
 
-import nl.saxion.app.SaxionApp;
-import java.awt.Color;
 import java.awt.Rectangle;
 
-public class Tile {
-    private final int x, y, width, height;
-    private final boolean solid;
+public abstract class Tile {
+    protected int x, y, width, height;
+    protected boolean solid;
 
     public Tile(int x, int y, int width, int height, boolean solid) {
         this.x = x;
@@ -16,10 +14,8 @@ public class Tile {
         this.solid = solid;
     }
 
-    public void draw() {
-        SaxionApp.setFill(solid ? Color.GRAY : Color.LIGHT_GRAY);
-        SaxionApp.drawRectangle(x, y, width, height);
-    }
+    public abstract void draw();
+
 
     public boolean isSolid() {
         return solid;

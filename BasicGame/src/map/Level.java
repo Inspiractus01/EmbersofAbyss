@@ -30,11 +30,19 @@ public class Level {
                     char charType = line.charAt(x);
 
                     switch (charType) {
-                        case '1': // Tile
-                            tiles.add(new Tile(x * tileSize, y * tileSize, tileSize, tileSize, true));
+                        case '1': // Ground tile
+                            tiles.add(new Ground_tile(x * tileSize, y * tileSize, tileSize, tileSize, true));
                             break;
 
-                        case '2': // Enemy
+                        case '2': // Wall
+                            tiles.add(new Wall_tile(x * tileSize, y * tileSize, tileSize, tileSize, true));
+                            break;
+
+                        case '3':
+                            tiles.add(new Platform_tile(x * tileSize, y * tileSize, tileSize, tileSize, true));
+                            break;
+
+                        case '9': // Enemy
                             enemies.add(new Enemy(x * tileSize, y * tileSize, game));
                             break;
 

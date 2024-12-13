@@ -19,7 +19,6 @@ public class Player {
     private boolean isJumping = false;
     private boolean canJump = true;
     private long lastJumpTime = 0;
-    private int direction = 1;
     private final Set<Integer> activeKeys = new HashSet<>();
     private int stamina = 100;
     private final int maxStamina = 100;
@@ -37,13 +36,11 @@ public class Player {
         if (activeKeys.contains(KeyEvent.VK_A)) {
             if (!willCollide(x - moveSpeed, y, tiles)) {
                 x -= moveSpeed; // Move left
-                direction = -1; // Face left
             }
         }
         if (activeKeys.contains(KeyEvent.VK_D)) {
             if (!willCollide(x + moveSpeed, y, tiles)) {
                 x += moveSpeed; // Move right
-                direction = 1; // Face right
             }
         }
 
