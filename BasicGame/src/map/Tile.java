@@ -16,7 +16,6 @@ public abstract class Tile {
 
     public abstract void draw();
 
-
     public boolean isSolid() {
         return solid;
     }

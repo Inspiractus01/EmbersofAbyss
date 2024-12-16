@@ -9,6 +9,6 @@ import nl.saxion.app.SaxionApp;
 public class BasicGame {
     public static void main(String[] args) {
         Game game = new Game();
-        SaxionApp.startGameLoop(game, 1000, 1000, 10); // Start the game loop
+        SaxionApp.startGameLoop(game, GameSettings.screenWidth, GameSettings.screenHeight, 10); // Start the game loop
     }
 }

@@ -9,10 +9,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import main.GameSettings;
+
 public class Player {
     private int x = 500;
-    private int y = 500;
-    private final int size = 50;
+    private int y = 500 - GameSettings.tileSize;
+    private final int size = GameSettings.tileSize;
     private final int moveSpeed = 4;
     private int verticalVelocity = -20;
     private final int gravity = 3;
@@ -30,6 +32,16 @@ public class Player {
     private final int attackCooldown = 500;
     private long lastAttackTime = 0;
     private String path = "assets/images/main.png";
+
+    // Collision box size (smaller than the player's visible size)
+    private final int collisionBoxWidth = size - 30; // 10 pixels smaller in width
+    private final int collisionBoxHeight = size - 0; // 0 pixels smaller in height
+    private Rectangle collisionBox;
+
+    public Player() {
+        // Initialize the collision box
+        updateCollisionBox();
+    }
 
     public void update(List<Enemy> enemies, List<Tile> tiles) {
         // Handle horizontal movement
@@ -53,15 +65,12 @@ public class Player {
             if (verticalVelocity < 0) {
                 for (Tile tile : tiles) {
                     Rectangle tileBounds = tile.getBounds();
-                    Rectangle playerBoundsWithVelocity = new Rectangle(x, y + verticalVelocity, size, size);
-
-                    if (tile.isSolid() && playerBoundsWithVelocity.intersects(tileBounds)) {
-                        // Stop upward movement upon collision with ceiling tile
+                    if (tile.isSolid() && getCollisionBoxWithOffset(0, verticalVelocity).intersects(tileBounds)) {
                         y = tileBounds.y + tileBounds.height;
-                        verticalVelocity = 0; // Reset the vertical velocity
+                        verticalVelocity = 0;
                         isJumping = false;
-                        canJump = false; // Prevent immediate jump
-                        lastJumpTime = System.currentTimeMillis(); // Set the lastJumpTime to start the cooldown
+                        canJump = false;
+                        lastJumpTime = System.currentTimeMillis();
                         break;
                     }
                 }
@@ -74,12 +83,9 @@ public class Player {
         if (verticalVelocity > 0) {
             for (Tile tile : tiles) {
                 Rectangle tileBounds = tile.getBounds();
-                Rectangle playerBoundsWithVelocity = new Rectangle(x, y + verticalVelocity, size, size);
-
-                if (tile.isSolid() && playerBoundsWithVelocity.intersects(tileBounds)) {
-                    // Align the player precisely on top of the tile
+                if (tile.isSolid() && getCollisionBoxWithOffset(0, verticalVelocity).intersects(tileBounds)) {
                     y = tileBounds.y - size;
-                    verticalVelocity = 0; // Reset velocity since player is landing
+                    verticalVelocity = 0;
                     isJumping = false;
                     canJump = false;
                     lastJumpTime = System.currentTimeMillis();
@@ -126,10 +132,13 @@ public class Player {
         if (activeKeys.contains(KeyEvent.VK_K) && System.currentTimeMillis() - lastAttackTime > attackCooldown) {
             performAttack(enemies);
         }
+        // Update the collision box position
+        updateCollisionBox();
     }
 
     private boolean willCollide(int futureX, int futureY, List<Tile> tiles) {
-        Rectangle futureBounds = new Rectangle(futureX, futureY, size, size);
+        Rectangle futureBounds = new Rectangle(futureX + (size - collisionBoxWidth) / 2,
+                futureY + (size - collisionBoxHeight) / 2, collisionBoxWidth, collisionBoxHeight);
         for (Tile tile : tiles) {
             if (tile.isSolid() && futureBounds.intersects(tile.getBounds())) {
                 return true;
@@ -139,7 +148,8 @@ public class Player {
     }
 
     private boolean isOnGround(List<Tile> tiles) {
-        Rectangle belowBounds = new Rectangle(x, y + size + 1, size, 2); // Check slightly below the player
+        Rectangle belowBounds = new Rectangle(x + (size - collisionBoxWidth) / 2,
+                y + size, collisionBoxWidth, 2);
         for (Tile tile : tiles) {
             if (tile.isSolid() && belowBounds.intersects(tile.getBounds())) {
                 return true;
@@ -158,13 +168,29 @@ public class Player {
             }
         }
 
-        // Draw attack area (optional visualization for debugging)
         SaxionApp.setFill(Color.RED);
         SaxionApp.drawRectangle(attackHitbox.x, attackHitbox.y, attackHitbox.width, attackHitbox.height);
     }
 
     public void render() {
+        // Draw the collision box for debugging
+        SaxionApp.setBorderColor(Color.BLUE); // Set a different color for the collision box
+        SaxionApp.setFill(null);
+        SaxionApp.drawRectangle(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+
+        // Draw the player image
         SaxionApp.drawImage(path, x, y, size, size);
+        
+    }
+
+    private void updateCollisionBox() {
+        collisionBox = new Rectangle(x + (size - collisionBoxWidth) / 2,
+                y + (size - collisionBoxHeight) / 2, collisionBoxWidth, collisionBoxHeight);
+    }
+
+    private Rectangle getCollisionBoxWithOffset(int offsetX, int offsetY) {
+        return new Rectangle(collisionBox.x + offsetX, collisionBox.y + offsetY,
+                collisionBox.width, collisionBox.height);
     }
 
     public void handleKeyboard(KeyboardEvent keyboardEvent) {
