@@ -4,10 +4,11 @@ import nl.saxion.app.SaxionApp;
 import java.awt.Color;
 import java.awt.Rectangle;
 import game.Game;
+import main.GameSettings;
 
 public class Enemy {
     private int x, y;
-    private int size = 50;
+    private int size = GameSettings.tileSize;
     private int health = 30;
     private boolean isDead = false;
 

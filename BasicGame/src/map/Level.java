@@ -8,11 +8,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import main.GameSettings;
 
 public class Level {
     private final List<Tile> tiles = new ArrayList<>();
     private final List<Enemy> enemies = new ArrayList<>();
-    private final int tileSize = 50; // Define the size of each tile
+    private final int tileSize = GameSettings.tileSize; // Define the size of each tile, imported from Gamesettings
     private final Game game;
 
     public Level(String mapFilePath, Game game) {
