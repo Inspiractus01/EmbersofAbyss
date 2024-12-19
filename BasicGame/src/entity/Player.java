@@ -34,7 +34,7 @@ public class Player {
     private String path = "assets/images/main.png";
 
     // Collision box size (smaller than the player's visible size)
-    private final int collisionBoxWidth = size - 30; // 10 pixels smaller in width
+    private final int collisionBoxWidth = size - 20; // 10 pixels smaller in width
     private final int collisionBoxHeight = size - 0; // 0 pixels smaller in height
     private Rectangle collisionBox;
 
