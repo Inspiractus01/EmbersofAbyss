@@ -66,6 +66,7 @@ public class Game implements GameLoop {
                 SaxionApp.quit();
             }
         }
+        player.handleKeyboard(keyboardEvent);
     }
 
     @Override
