@@ -1,6 +1,7 @@
 package game;
 
 import map.Level;
+import menu.Menu;
 import nl.saxion.app.interaction.GameLoop;
 import nl.saxion.app.interaction.KeyboardEvent;
 import nl.saxion.app.interaction.MouseEvent;
@@ -16,11 +17,13 @@ public class Game implements GameLoop {
     private final UI ui = new UI();
     private List<Enemy> enemies;
     private Level level;
+    private String gameState;
 
     @Override
     public void init() {
         level = new Level("BasicGame/levels/level1.map", this);
         enemies = level.getEnemies(); // Load enemies from level
+        gameState="Menu";
     }
 
     public void removeEnemy(Enemy enemy) {
@@ -30,8 +33,14 @@ public class Game implements GameLoop {
     @Override
     public void loop() {
         SaxionApp.clear();
-
+        if(gameState.equalsIgnoreCase("menu")){
+            Menu.drawOptions();
+        }else if(gameState.equalsIgnoreCase("Play")){
+            drawGame();
+        }
         // Draw the level
+    }
+    public void drawGame(){
         level.draw();
 
         // Update and render the player
@@ -48,10 +57,15 @@ public class Game implements GameLoop {
             }
         }
     }
-
     @Override
     public void keyboardEvent(KeyboardEvent keyboardEvent) {
-        player.handleKeyboard(keyboardEvent);
+        if (gameState.equalsIgnoreCase("menu")) {
+            if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_ENTER) {
+                gameState = "Play";
+            } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_ESCAPE) {
+                SaxionApp.quit();
+            }
+        }
     }
 
     @Override
