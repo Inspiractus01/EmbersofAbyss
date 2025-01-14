@@ -2,6 +2,7 @@ package map;
 
 import entity.Enemy;
 import game.Game;
+import game.Camera;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -68,9 +69,9 @@ public class Level {
         return enemies;
     }
 
-    public void draw() {
+    public void draw(Camera camera) {
         for (Tile tile : tiles) {
-            tile.draw();
+            tile.draw(camera);
         }
     }
 }

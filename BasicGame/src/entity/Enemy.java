@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import game.Game;
 import main.GameSettings;
+import game.Camera;
 
 public class Enemy {
     private int x, y;
@@ -40,10 +41,10 @@ public class Enemy {
         return new Rectangle(x, y, size, size);
     }
 
-    public void draw() {
+    public void draw(Camera camera) {
         if (!isDead) {
             SaxionApp.setFill(Color.red);
-            SaxionApp.drawRectangle(x, y, size, size);
+            SaxionApp.drawRectangle(x - camera.getX(), y - camera.getY(), size, size);
         }
     }
 }

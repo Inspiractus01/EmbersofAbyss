@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import main.GameSettings;
+import game.Camera;
 
 public class Player {
     private int x = 500;
@@ -172,15 +173,14 @@ public class Player {
         SaxionApp.drawRectangle(attackHitbox.x, attackHitbox.y, attackHitbox.width, attackHitbox.height);
     }
 
-    public void render() {
+    public void render(Camera camera) {
         // Draw the collision box for debugging
         SaxionApp.setBorderColor(Color.BLUE); // Set a different color for the collision box
         SaxionApp.setFill(null);
-        SaxionApp.drawRectangle(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+        SaxionApp.drawRectangle(collisionBox.x - camera.getX(), collisionBox.y - camera.getY(), collisionBox.width, collisionBox.height);
 
         // Draw the player image
-        SaxionApp.drawImage(path, x, y, size, size);
-        
+        SaxionApp.drawImage(path, x - camera.getX(), y - camera.getY(), size, size);
     }
 
     private void updateCollisionBox() {
@@ -211,6 +211,14 @@ public class Player {
                 hasJumped = false;
             }
         }
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public int getHealth() {

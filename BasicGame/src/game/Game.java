@@ -16,11 +16,13 @@ public class Game implements GameLoop {
     private final UI ui = new UI();
     private List<Enemy> enemies;
     private Level level;
+    private Camera camera;
 
     @Override
     public void init() {
         level = new Level("BasicGame/levels/level1.map", this);
         enemies = level.getEnemies(); // Load enemies from level
+        camera = new Camera(player.getX(), player.getY());
     }
 
     public void removeEnemy(Enemy enemy) {
@@ -31,12 +33,15 @@ public class Game implements GameLoop {
     public void loop() {
         SaxionApp.clear();
 
+        // Update camera position
+        camera.update(player.getX(), player.getY());
+
         // Draw the level
-        level.draw();
+        level.draw(camera);
 
         // Update and render the player
         player.update(enemies, level.getTiles());
-        player.render();
+        player.render(camera);
 
         // Draw the UI elements
         ui.drawHealthBar(player.getHealth());
@@ -44,7 +49,7 @@ public class Game implements GameLoop {
 
         for (Enemy enemy : enemies) {
             if (!enemy.isDead()) {
-                enemy.draw();
+                enemy.draw(camera);
             }
         }
     }
