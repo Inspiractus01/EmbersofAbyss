@@ -3,7 +3,7 @@ import nl.saxion.app.SaxionApp;
 
 public class Platform_tile extends Tile{
     public Platform_tile(int x, int y, int width, int height, boolean solid) {
-        super(x, y, width, height, solid);
+        super(x, y + (height / 4), width, height / 2, solid);
     }
 
     String path = "assets/images/tiles/placeholder.png";
