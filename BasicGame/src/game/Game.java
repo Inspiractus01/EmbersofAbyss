@@ -40,7 +40,7 @@ public class Game implements GameLoop {
         level.draw(camera);
 
         // Update and render the player
-        player.update(enemies, level.getTiles());
+        player.update(enemies, level.getTiles(), camera);
         player.render(camera);
 
         // Draw the UI elements

@@ -44,7 +44,7 @@ public class Player {
         updateCollisionBox();
     }
 
-    public void update(List<Enemy> enemies, List<Tile> tiles) {
+    public void update(List<Enemy> enemies, List<Tile> tiles, Camera camera) {
         // Handle horizontal movement
         if (activeKeys.contains(KeyEvent.VK_A)) {
             if (!willCollide(x - moveSpeed, y, tiles)) {
@@ -131,7 +131,7 @@ public class Player {
 
         // Handle attack
         if (activeKeys.contains(KeyEvent.VK_K) && System.currentTimeMillis() - lastAttackTime > attackCooldown) {
-            performAttack(enemies);
+            performAttack(enemies, camera);
         }
         // Update the collision box position
         updateCollisionBox();
@@ -159,9 +159,9 @@ public class Player {
         return false;
     }
 
-    private void performAttack(List<Enemy> enemies) {
+    private void performAttack(List<Enemy> enemies, Camera camera) {
         lastAttackTime = System.currentTimeMillis();
-        Rectangle attackHitbox = new Rectangle(x + (size / 2), y, size, size);
+        Rectangle attackHitbox = new Rectangle(x, y, size, size);
 
         for (Enemy enemy : enemies) {
             if (attackHitbox.intersects(enemy.getBounds())) {
@@ -169,8 +169,9 @@ public class Player {
             }
         }
 
+        // Draw the attack hitbox around the player
         SaxionApp.setFill(Color.RED);
-        SaxionApp.drawRectangle(attackHitbox.x, attackHitbox.y, attackHitbox.width, attackHitbox.height);
+        SaxionApp.drawRectangle(attackHitbox.x - camera.getX(), attackHitbox.y - camera.getY(), attackHitbox.width, attackHitbox.height);
     }
 
     public void render(Camera camera) {
