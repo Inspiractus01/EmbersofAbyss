@@ -1,0 +1,119 @@
+{ "frames": [
+   {
+    "filename": "Full Animation #idle 0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "sourceSize": { "w": 147, "h": 93 },
+    "duration": 100
+   },
+   {
+    "filename": "Full Animation #idle 1.aseprite",
+    "frame": { "x": 147, "y": 0, "w": 147, "h": 93 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "sourceSize": { "w": 147, "h": 93 },
+    "duration": 100
+   },
+   {
+    "filename": "Full Animation #idle 2.aseprite",
+    "frame": { "x": 294, "y": 0, "w": 147, "h": 93 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "sourceSize": { "w": 147, "h": 93 },
+    "duration": 100
+   },
+   {
+    "filename": "Full Animation #idle 3.aseprite",
+    "frame": { "x": 441, "y": 0, "w": 147, "h": 93 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "sourceSize": { "w": 147, "h": 93 },
+    "duration": 100
+   },
+   {
+    "filename": "Full Animation #idle 4.aseprite",
+    "frame": { "x": 588, "y": 0, "w": 147, "h": 93 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "sourceSize": { "w": 147, "h": 93 },
+    "duration": 100
+   },
+   {
+    "filename": "Full Animation #idle 5.aseprite",
+    "frame": { "x": 735, "y": 0, "w": 147, "h": 93 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "sourceSize": { "w": 147, "h": 93 },
+    "duration": 100
+   },
+   {
+    "filename": "Full Animation #idle 6.aseprite",
+    "frame": { "x": 882, "y": 0, "w": 147, "h": 93 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "sourceSize": { "w": 147, "h": 93 },
+    "duration": 100
+   },
+   {
+    "filename": "Full Animation #idle 7.aseprite",
+    "frame": { "x": 1029, "y": 0, "w": 147, "h": 93 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "sourceSize": { "w": 147, "h": 93 },
+    "duration": 100
+   },
+   {
+    "filename": "Full Animation #idle 8.aseprite",
+    "frame": { "x": 1176, "y": 0, "w": 147, "h": 93 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "sourceSize": { "w": 147, "h": 93 },
+    "duration": 100
+   },
+   {
+    "filename": "Full Animation #idle 9.aseprite",
+    "frame": { "x": 1323, "y": 0, "w": 147, "h": 93 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "sourceSize": { "w": 147, "h": 93 },
+    "duration": 100
+   },
+   {
+    "filename": "Full Animation #idle 10.aseprite",
+    "frame": { "x": 1470, "y": 0, "w": 147, "h": 93 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "sourceSize": { "w": 147, "h": 93 },
+    "duration": 100
+   },
+   {
+    "filename": "Full Animation #idle 11.aseprite",
+    "frame": { "x": 1617, "y": 0, "w": 147, "h": 93 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 147, "h": 93 },
+    "sourceSize": { "w": 147, "h": 93 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3.8.1-x64",
+  "image": "Full Animation-idle.png",
+  "format": "RGBA8888",
+  "size": { "w": 1764, "h": 93 },
+  "scale": "1"
+ }
+}
