@@ -132,76 +132,149 @@ public class AnimationLoader {
        // attackingFramesLeft.add("assets/images/Player-left/attack/Player-l38.png");
         return attackingFramesLeft;
     }
-
+//ENEMY------------------------------------------------------------
     public static List<String> loadEnemyIdleFramesLeft() {
         List<String> idleFramesLeft = new ArrayList<>();
-        idleFramesLeft.add("assets/images/Enemy/idle_left/Enemy1.png");
-        idleFramesLeft.add("assets/images/Enemy/idle_left/Enemy2.png");
-        idleFramesLeft.add("assets/images/Enemy/idle_left/Enemy3.png");
-        idleFramesLeft.add("assets/images/Enemy/idle_left/Enemy4.png");
+        idleFramesLeft.add("assets/images/Enemy/idle/idle-r1.png");
+        idleFramesLeft.add("assets/images/Enemy/idle/idle-r2.png");
+        idleFramesLeft.add("assets/images/Enemy/idle/idle-r3.png");
+        idleFramesLeft.add("assets/images/Enemy/idle/idle-r4.png");
+        idleFramesLeft.add("assets/images/Enemy/idle/idle-r5.png");
+        idleFramesLeft.add("assets/images/Enemy/idle/idle-r6.png");
+        idleFramesLeft.add("assets/images/Enemy/idle/idle-r7.png");
+        idleFramesLeft.add("assets/images/Enemy/idle/idle-r8.png");
+        idleFramesLeft.add("assets/images/Enemy/idle/idle-r9.png");
+
         return idleFramesLeft;
     }
 
     public static List<String> loadEnemyIdleFramesRight() {
         List<String> idleFramesRight = new ArrayList<>();
-        idleFramesRight.add("assets/images/Enemy/idle_right/Enemy1.png");
-        idleFramesRight.add("assets/images/Enemy/idle_right/Enemy2.png");
-        idleFramesRight.add("assets/images/Enemy/idle_right/Enemy3.png");
-        idleFramesRight.add("assets/images/Enemy/idle_right/Enemy4.png");
+        idleFramesRight.add("assets/images/Enemy/idle/idle-l1.png");
+        idleFramesRight.add("assets/images/Enemy/idle/idle-l2.png");
+        idleFramesRight.add("assets/images/Enemy/idle/idle-l3.png");
+        idleFramesRight.add("assets/images/Enemy/idle/idle-l4.png");
+        idleFramesRight.add("assets/images/Enemy/idle/idle-l5.png");
+        idleFramesRight.add("assets/images/Enemy/idle/idle-l6.png");
+        idleFramesRight.add("assets/images/Enemy/idle/idle-l7.png");
+        idleFramesRight.add("assets/images/Enemy/idle/idle-l8.png");
+        idleFramesRight.add("assets/images/Enemy/idle/idle-l9.png");
         return idleFramesRight;
     }
 
     public static List<String> loadEnemyRunningFramesLeft() {
         List<String> runningFramesLeft = new ArrayList<>();
-        runningFramesLeft.add("assets/images/Enemy/run_left/Enemy1.png");
-        runningFramesLeft.add("assets/images/Enemy/run_left/Enemy2.png");
-        runningFramesLeft.add("assets/images/Enemy/run_left/Enemy3.png");
-        runningFramesLeft.add("assets/images/Enemy/run_left/Enemy4.png");
+        runningFramesLeft.add("assets/images/Enemy/walk/run-l1.png");
+        runningFramesLeft.add("assets/images/Enemy/walk/run-l2.png");
+        runningFramesLeft.add("assets/images/Enemy/walk/run-l3.png");
+        runningFramesLeft.add("assets/images/Enemy/walk/run-l4.png");
+        runningFramesLeft.add("assets/images/Enemy/walk/run-l5.png");
+        runningFramesLeft.add("assets/images/Enemy/walk/run-l6.png");
+
         return runningFramesLeft;
     }
 
     public static List<String> loadEnemyRunningFramesRight() {
         List<String> runningFramesRight = new ArrayList<>();
-        runningFramesRight.add("assets/images/Enemy/run_right/Enemy1.png");
-        runningFramesRight.add("assets/images/Enemy/run_right/Enemy2.png");
-        runningFramesRight.add("assets/images/Enemy/run_right/Enemy3.png");
-        runningFramesRight.add("assets/images/Enemy/run_right/Enemy4.png");
+        runningFramesRight.add("assets/images/Enemy/walk/run-r1.png");
+        runningFramesRight.add("assets/images/Enemy/walk/run-r2.png");
+        runningFramesRight.add("assets/images/Enemy/walk/run-r3.png");
+        runningFramesRight.add("assets/images/Enemy/walk/run-r4.png");
+        runningFramesRight.add("assets/images/Enemy/walk/run-r5.png");
+        runningFramesRight.add("assets/images/Enemy/walk/run-r6.png");
         return runningFramesRight;
     }
 
     public static List<String> loadEnemyAttackingFramesLeft() {
         List<String> attackingFramesLeft = new ArrayList<>();
-        attackingFramesLeft.add("assets/images/Enemy/attack_left/Enemy1.png");
-        attackingFramesLeft.add("assets/images/Enemy/attack_left/Enemy2.png");
-        attackingFramesLeft.add("assets/images/Enemy/attack_left/Enemy3.png");
-        attackingFramesLeft.add("assets/images/Enemy/attack_left/Enemy4.png");
+        attackingFramesLeft.add("assets/images/Enemy/atack/atack-l1.png");
+        attackingFramesLeft.add("assets/images/Enemy/atack/atack-l2.png");
+        attackingFramesLeft.add("assets/images/Enemy/atack/atack-l3.png");
+        attackingFramesLeft.add("assets/images/Enemy/atack/atack-l4.png");
+        attackingFramesLeft.add("assets/images/Enemy/atack/atack-l5.png");
+        attackingFramesLeft.add("assets/images/Enemy/atack/atack-l6.png");
+        attackingFramesLeft.add("assets/images/Enemy/atack/atack-l7.png");
+        attackingFramesLeft.add("assets/images/Enemy/atack/atack-l8.png");
+        attackingFramesLeft.add("assets/images/Enemy/atack/atack-l9.png");
+        attackingFramesLeft.add("assets/images/Enemy/atack/atack-l10.png");
+        attackingFramesLeft.add("assets/images/Enemy/atack/atack-l11.png");
+        attackingFramesLeft.add("assets/images/Enemy/atack/atack-l12.png");
+
         return attackingFramesLeft;
     }
 
     public static List<String> loadEnemyAttackingFramesRight() {
         List<String> attackingFramesRight = new ArrayList<>();
-        attackingFramesRight.add("assets/images/Enemy/attack_right/Enemy1.png");
-        attackingFramesRight.add("assets/images/Enemy/attack_right/Enemy2.png");
-        attackingFramesRight.add("assets/images/Enemy/attack_right/Enemy3.png");
-        attackingFramesRight.add("assets/images/Enemy/attack_right/Enemy4.png");
+        attackingFramesRight.add("assets/images/Enemy/atack/atack-r1.png");
+        attackingFramesRight.add("assets/images/Enemy/atack/atack-r2.png");
+        attackingFramesRight.add("assets/images/Enemy/atack/atack-r3.png");
+        attackingFramesRight.add("assets/images/Enemy/atack/atack-r4.png");
+        attackingFramesRight.add("assets/images/Enemy/atack/atack-r5.png");
+        attackingFramesRight.add("assets/images/Enemy/atack/atack-r6.png");
+        attackingFramesRight.add("assets/images/Enemy/atack/atack-r7.png");
+        attackingFramesRight.add("assets/images/Enemy/atack/atack-r8.png");
+        attackingFramesRight.add("assets/images/Enemy/atack/atack-r9.png");
+        attackingFramesRight.add("assets/images/Enemy/atack/atack-r10.png");
+        attackingFramesRight.add("assets/images/Enemy/atack/atack-r11.png");
+        attackingFramesRight.add("assets/images/Enemy/atack/atack-r12.png");
         return attackingFramesRight;
     }
 
     public static List<String> loadEnemyDeathFramesLeft() {
         List<String> deathFramesLeft = new ArrayList<>();
-        deathFramesLeft.add("assets/images/Enemy/death_left/Enemy1.png");
-        deathFramesLeft.add("assets/images/Enemy/death_left/Enemy2.png");
-        deathFramesLeft.add("assets/images/Enemy/death_left/Enemy3.png");
-        deathFramesLeft.add("assets/images/Enemy/death_left/Enemy4.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l1.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l2.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l3.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l4.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l5.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l6.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l7.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l8.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l9.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l10.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l11.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l12.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l13.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l14.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l15.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l16.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l17.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l18.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l19.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l20.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l21.png");
+        deathFramesLeft.add("assets/images/Enemy/death/death-l22.png");
+
+
+
         return deathFramesLeft;
     }
 
     public static List<String> loadEnemyDeathFramesRight() {
         List<String> deathFramesRight = new ArrayList<>();
-        deathFramesRight.add("assets/images/Enemy/death_right/Enemy1.png");
-        deathFramesRight.add("assets/images/Enemy/death_right/Enemy2.png");
-        deathFramesRight.add("assets/images/Enemy/death_right/Enemy3.png");
-        deathFramesRight.add("assets/images/Enemy/death_right/Enemy4.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r1.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r2.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r3.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r4.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r5.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r6.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r7.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r8.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r9.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r10.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r11.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r12.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r13.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r14.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r15.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r16.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r17.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r18.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r19.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r20.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r21.png");
+        deathFramesRight.add("assets/images/Enemy/death/death-r22.png");
+        
         return deathFramesRight;
     }
 }

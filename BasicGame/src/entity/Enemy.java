@@ -8,6 +8,7 @@ import main.GameSettings;
 import game.Camera;
 import map.Tile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Enemy {
@@ -19,7 +20,7 @@ public class Enemy {
     private int runSpeed = 2; // Speed when running towards the player
     private int leftBorder, rightBorder, topBorder, bottomBorder;
     private long lastAttackTime = 0;
-    private final int attackCooldown = 400; // Time between attacks in milliseconds
+    private final int attackCooldown = 2000; // Time between attacks in milliseconds
     private final int attackRange = size + 20; // Distance within which the enemy will attack the player
     private final int detectionRange = 200; // Distance within which the enemy will detect the player
     private final int gravity = 3;
@@ -31,6 +32,20 @@ public class Enemy {
     private boolean playerDetected = false;
     private boolean facingRight = true;
 
+    // Animation frames
+    private List<String> idleFramesLeft = new ArrayList<>();
+    private List<String> idleFramesRight = new ArrayList<>();
+    private List<String> runningFramesLeft = new ArrayList<>();
+    private List<String> runningFramesRight = new ArrayList<>();
+    private List<String> attackingFramesLeft = new ArrayList<>();
+    private List<String> attackingFramesRight = new ArrayList<>();
+    private List<String> deathFramesLeft = new ArrayList<>();
+    private List<String> deathFramesRight = new ArrayList<>();
+    private int currentFrame = 0;
+    private long lastFrameTime = 0;
+    private final int frameDuration = 100; // Duration for each frame in milliseconds
+    private List<String> previousFrames = null; // To track the previous animation frames
+
     public Enemy(int startX, int startY, int leftBorder, int rightBorder, int topBorder, int bottomBorder, Game game) {
         this.x = startX;
         this.y = startY;
@@ -39,6 +54,18 @@ public class Enemy {
         this.topBorder = topBorder;
         this.bottomBorder = bottomBorder;
         this.game = game;
+        loadAnimationFrames();
+    }
+
+    private void loadAnimationFrames() {
+        idleFramesLeft = AnimationLoader.loadEnemyIdleFramesLeft();
+        idleFramesRight = AnimationLoader.loadEnemyIdleFramesRight();
+        runningFramesLeft = AnimationLoader.loadEnemyRunningFramesLeft();
+        runningFramesRight = AnimationLoader.loadEnemyRunningFramesRight();
+        attackingFramesLeft = AnimationLoader.loadEnemyAttackingFramesLeft();
+        attackingFramesRight = AnimationLoader.loadEnemyAttackingFramesRight();
+        deathFramesLeft = AnimationLoader.loadEnemyDeathFramesLeft();
+        deathFramesRight = AnimationLoader.loadEnemyDeathFramesRight();
     }
 
     public void takeDamage(int damage) {
@@ -141,6 +168,24 @@ public class Enemy {
             }
             x += moveSpeed;
         }
+
+        // Update the current frame based on time
+        if (System.currentTimeMillis() - lastFrameTime >= frameDuration) {
+            currentFrame = (currentFrame + 1) % getCurrentFrames().size();
+            lastFrameTime = System.currentTimeMillis();
+        }
+    }
+
+    private List<String> getCurrentFrames() {
+        if (isDead) {
+            return facingRight ? deathFramesRight : deathFramesLeft;
+        } else if (isAttacking) {
+            return facingRight ? attackingFramesRight : attackingFramesLeft;
+        } else if (playerDetected) {
+            return facingRight ? runningFramesRight : runningFramesLeft;
+        } else {
+            return facingRight ? idleFramesRight : idleFramesLeft;
+        }
     }
 
     private Rectangle getCollisionBoxWithOffset(int offsetX, int offsetY) {
@@ -158,12 +203,11 @@ public class Enemy {
 
     public void draw(Camera camera) {
         if (!isDead) {
-            if (isAttacking) {
-                SaxionApp.setFill(Color.yellow); // Change color to yellow when attacking
-            } else {
-                SaxionApp.setFill(Color.red);
+            List<String> currentFrames = getCurrentFrames();
+            if (!currentFrames.isEmpty() && currentFrame < currentFrames.size()) {
+                String currentFrameImage = currentFrames.get(currentFrame);
+                SaxionApp.drawImage(currentFrameImage, x - camera.getX(), y - camera.getY(), size, size);
             }
-            SaxionApp.drawRectangle(x - camera.getX(), y - camera.getY(), size, size);
 
             // Draw attack range
             Color transparentOrange = new Color(255, 165, 0, 50); // Orange with alpha for transparency
