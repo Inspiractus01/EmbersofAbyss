@@ -20,11 +20,14 @@ public class Enemy {
     private int leftBorder, rightBorder, topBorder, bottomBorder;
     private long lastAttackTime = 0;
     private final int attackCooldown = 2000; // Time between attacks in milliseconds
-    private final int attackRange = size; // Distance within which the enemy will attack the player
+    private final int attackRange = size + 50; // Distance within which the enemy will attack the player
     private final int detectionRange = 200; // Distance within which the enemy will detect the player
     private final int gravity = 3;
     private int verticalVelocity = 0;
     private Game game;
+    private boolean isAttacking = false;
+    private long attackStartTime = 0;
+    private final int attackDelay = 2000; // 3 seconds delay for attack animation
 
     public Enemy(int startX, int startY, int leftBorder, int rightBorder, int topBorder, int bottomBorder, Game game) {
         this.x = startX;
@@ -82,42 +85,59 @@ public class Enemy {
             }
         }
 
-        // Check if player is within detection range
-        if (Math.abs(player.getX() - x) < detectionRange && Math.abs(player.getY() - y) < detectionRange) {
-            // Move towards the player
-            if (player.getX() > x) {
-                x += runSpeed;
-            } else if (player.getX() < x) {
-                x -= runSpeed;
-            }
-
-            if (player.getY() > y) {
-                y += runSpeed;
-            } else if (player.getY() < y) {
-                y -= runSpeed;
-            }
-
-            // Check if player is within attack range
-            if (Math.abs(player.getX() - x) < attackRange && Math.abs(player.getY() - y) < attackRange) {
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastAttackTime >= attackCooldown) {
-                    player.takeDamage(5); // Attack the player
-                    lastAttackTime = currentTime;
-                }
-            }
-        } else {
-            // Wandering logic
-            if (x < leftBorder || x > rightBorder) {
-                moveSpeed = -moveSpeed; // Change direction when hitting borders
-            }
-            x += moveSpeed;
-        }
-
         // Ensure enemy stays on the ground
         if (!onGround) {
             verticalVelocity += gravity;
         } else {
             verticalVelocity = 0;
+        }
+
+        long currentTime = System.currentTimeMillis();
+
+        // Check if player is within detection range
+        if (Math.abs(player.getX() - x) < detectionRange && Math.abs(player.getY() - y) < detectionRange) {
+            // Check if player is within attack range
+            if (Math.abs(player.getX() - x) < attackRange && Math.abs(player.getY() - y) < attackRange) {
+                if (!isAttacking && currentTime - lastAttackTime >= attackCooldown) {
+                    isAttacking = true;
+                    attackStartTime = currentTime;
+                }
+
+                if (isAttacking) {
+                    // Wait for attack delay
+                    if (currentTime - attackStartTime >= attackDelay) {
+                        player.takeDamage(5); // Attack the player
+                        lastAttackTime = currentTime;
+                        isAttacking = false;
+                    }
+                }
+            } else {
+                // Stop attacking if player moves out of attack range
+                isAttacking = false;
+
+                // Move towards the player
+                if (!isAttacking) {
+                    if (player.getX() > x) {
+                        x += runSpeed;
+                    } else if (player.getX() < x) {
+                        x -= runSpeed;
+                    }
+
+                    if (player.getY() > y) {
+                        y += runSpeed;
+                    } else if (player.getY() < y) {
+                        y -= runSpeed;
+                    }
+                }
+            }
+        } else {
+            // Wandering logic
+            if (!isAttacking) {
+                if (x < leftBorder || x > rightBorder) {
+                    moveSpeed = -moveSpeed; // Change direction when hitting borders
+                }
+                x += moveSpeed;
+            }
         }
     }
 
@@ -127,7 +147,11 @@ public class Enemy {
 
     public void draw(Camera camera) {
         if (!isDead) {
-            SaxionApp.setFill(Color.red);
+            if (isAttacking) {
+                SaxionApp.setFill(Color.yellow); // Change color to yellow when attacking
+            } else {
+                SaxionApp.setFill(Color.red);
+            }
             SaxionApp.drawRectangle(x - camera.getX(), y - camera.getY(), size, size);
         }
     }
