@@ -218,9 +218,9 @@ public class Player {
     private void performAttack(List<Enemy> enemies, Camera camera) {
         Rectangle attackHitbox;
         if (facingLeft) {
-            attackHitbox = new Rectangle(x - size, y, size, size); // Attack to the left
+            attackHitbox = new Rectangle(x - size+24, y, size, size); // Attack to the left
         } else {
-            attackHitbox = new Rectangle(x + size, y, size, size); // Attack to the right
+            attackHitbox = new Rectangle(x + size-24, y, size, size); // Attack to the right
         }
 
         for (Enemy enemy : enemies) {
@@ -245,7 +245,7 @@ public class Player {
         if (isAttacking) {
             currentFrames = facingLeft ? attackingFramesLeft : attackingFrames;
             // Check if the attack animation duration has passed
-            if (System.currentTimeMillis() - attackStartTime >= currentFrames.size() * frameDuration) {
+            if (System.currentTimeMillis() - attackStartTime >= currentFrames.size() * frameDuration / 1.6 ) { // Faster attack animation
                 isAttacking = false;
                 attackHit = false; // Reset attack hit flag
                 attackInProgress = false; // Reset attack in progress flag
