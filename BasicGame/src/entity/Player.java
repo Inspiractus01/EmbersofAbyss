@@ -34,7 +34,7 @@ public class Player {
     private boolean hasJumped = false; // Flag to track jump initiation
     private int health = 100;
     private final int maxHealth = 100;
-    private final int healthRegenAmount = 0; // regen amount per interval turned of now
+    private final int healthRegenAmount = 0; // regen amount per interval
     private final int healthRegenDelay = 5000; // Delay before health regeneration starts
     private final int healthRegenInterval = 1000; // Interval between health regeneration ticks
     private long lastHealthRegenTime = 0;
@@ -346,6 +346,7 @@ public class Player {
         if (health <= 0) {
             // Handle player death (e.g., game over logic)
             System.out.println("Player is dead");
+            System.exit(0); // Terminate the game
         }
     }
 
