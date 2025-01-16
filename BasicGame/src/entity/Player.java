@@ -45,6 +45,12 @@ public class Player {
     private List<String> jumpingFrames = new ArrayList<>();
     private List<String> fallingFrames = new ArrayList<>();
     private List<String> attackingFrames = new ArrayList<>();
+
+    private List<String> idleFramesLeft = new ArrayList<>();
+    private List<String> walkingFramesLeft = new ArrayList<>();
+    private List<String> jumpingFramesLeft = new ArrayList<>();
+    private List<String> fallingFramesLeft = new ArrayList<>();
+    private List<String> attackingFramesLeft = new ArrayList<>();
     
     private int currentFrame = 0;
     private long lastFrameTime = 0;
@@ -66,53 +72,17 @@ public class Player {
     }
 
     private void loadAnimationFrames() {
-        // Load idle frames
-        idleFrames.add("assets/images/Player/idle/Player1.png");
-        idleFrames.add("assets/images/Player/idle/Player2.png");
-        idleFrames.add("assets/images/Player/idle/Player3.png");
-        idleFrames.add("assets/images/Player/idle/Player4.png");
-        idleFrames.add("assets/images/Player/idle/Player5.png");
-        idleFrames.add("assets/images/Player/idle/Player6.png");
-        idleFrames.add("assets/images/Player/idle/Player7.png");
-        idleFrames.add("assets/images/Player/idle/Player8.png");
-        idleFrames.add("assets/images/Player/idle/Player9.png");
-        idleFrames.add("assets/images/Player/idle/Player10.png");
-        idleFrames.add("assets/images/Player/idle/Player11.png");
-        idleFrames.add("assets/images/Player/idle/Player12.png");
 
-        // Load walking frames
-        walkingFrames.add("assets/images/Player/run/Player25.png");
-        walkingFrames.add("assets/images/Player/run/Player26.png");
-        walkingFrames.add("assets/images/Player/run/Player27.png");
-        walkingFrames.add("assets/images/Player/run/Player28.png");
-        walkingFrames.add("assets/images/Player/run/Player29.png");
-        walkingFrames.add("assets/images/Player/run/Player30.png");
-        walkingFrames.add("assets/images/Player/run/Player31.png");
-        walkingFrames.add("assets/images/Player/run/Player32.png");
-
-        // Load jumping frames
-        jumpingFrames.add("assets/images/Player/jump/Player41.png");
-        jumpingFrames.add("assets/images/Player/jump/Player42.png");
-        jumpingFrames.add("assets/images/Player/jump/Player43.png");
-        jumpingFrames.add("assets/images/Player/jump/Player44.png");
-
-        // Load falling frames
-        fallingFrames.add("assets/images/Player/fall/Player57.png");
-        fallingFrames.add("assets/images/Player/fall/Player58.png");
-        fallingFrames.add("assets/images/Player/fall/Player59.png");
-        fallingFrames.add("assets/images/Player/fall/Player60.png");
-
-        // Load attacking frames
-        attackingFrames.add("assets/images/Player/attack/Player73.png");
-        attackingFrames.add("assets/images/Player/attack/Player74.png");
-        attackingFrames.add("assets/images/Player/attack/Player75.png");
-        attackingFrames.add("assets/images/Player/attack/Player76.png");
-        attackingFrames.add("assets/images/Player/attack/Player77.png");
-        attackingFrames.add("assets/images/Player/attack/Player78.png");
-        attackingFrames.add("assets/images/Player/attack/Player79.png");
-        attackingFrames.add("assets/images/Player/attack/Player80.png");
-        attackingFrames.add("assets/images/Player/attack/Player81.png");
-        attackingFrames.add("assets/images/Player/attack/Player82.png");
+        idleFrames = AnimationLoader.loadIdleFrames();
+         walkingFrames = AnimationLoader.loadWalkingFrames();
+         jumpingFrames = AnimationLoader.loadJumpingFrames();
+         fallingFrames = AnimationLoader.loadFallingFrames();
+         attackingFrames = AnimationLoader.loadAttackingFrames();
+         idleFramesLeft = AnimationLoader.loadIdleFramesLeft();
+         walkingFramesLeft = AnimationLoader.loadWalkingFramesLeft();
+         jumpingFramesLeft = AnimationLoader.loadJumpingFramesLeft();
+         fallingFramesLeft = AnimationLoader.loadFallingFramesLeft();
+         attackingFramesLeft = AnimationLoader.loadAttackingFramesLeft();
     }
 
     public void update(List<Enemy> enemies, List<Tile> tiles, Camera camera) {
@@ -270,20 +240,20 @@ public class Player {
         // Determine the current animation frames
         List<String> currentFrames;
         if (isAttacking) {
-            currentFrames = attackingFrames;
+            currentFrames = facingLeft ? attackingFramesLeft : attackingFrames;
             // Check if the attack animation duration has passed
-            if (System.currentTimeMillis() - attackStartTime >= attackingFrames.size() * frameDuration) {
+            if (System.currentTimeMillis() - attackStartTime >= currentFrames.size() * frameDuration) {
                 isAttacking = false;
                 attackHit = false; // Reset attack hit flag
             }
         } else if (isJumping && !isFalling) {
-            currentFrames = jumpingFrames;
+            currentFrames = facingLeft ? jumpingFramesLeft : jumpingFrames;
         } else if (isFalling) {
-            currentFrames = fallingFrames;
+            currentFrames = facingLeft ? fallingFramesLeft : fallingFrames;
         } else if (activeKeys.contains(KeyEvent.VK_A) || activeKeys.contains(KeyEvent.VK_D)) {
-            currentFrames = walkingFrames;
+            currentFrames = facingLeft ? walkingFramesLeft : walkingFrames;
         } else {
-            currentFrames = idleFrames;
+            currentFrames = facingLeft ? idleFramesLeft : idleFrames;
         }
 
         // Reset currentFrame if the animation state has changed
@@ -300,8 +270,11 @@ public class Player {
                 lastFrameTime = System.currentTimeMillis();
             }
 
-            // Draw the current frame
-            SaxionApp.drawImage(currentFrames.get(currentFrame), x - camera.getX() - 20, y - camera.getY() - 35, size + 60, size + 60);
+            if (facingLeft) {
+                SaxionApp.drawImage(currentFrames.get(currentFrame), x - camera.getX()-40 , y - camera.getY() - 35, size + 60, size + 60);
+            } else {
+                SaxionApp.drawImage(currentFrames.get(currentFrame), x - camera.getX() - 20, y - camera.getY() - 35, size + 60, size + 60);
+            }
         }
     }
 
