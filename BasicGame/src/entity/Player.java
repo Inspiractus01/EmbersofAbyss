@@ -5,6 +5,7 @@ import nl.saxion.app.SaxionApp;
 import nl.saxion.app.interaction.KeyboardEvent;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +33,13 @@ public class Player {
     private int health = 100;
     private final int attackCooldown = 500;
     private long lastAttackTime = 0;
-    private String path = "assets/images/main.png";
+
+    // Animation frames
+    private List<String> idleFrames = new ArrayList<>();
+    private List<String> walkingFrames = new ArrayList<>();
+    private int currentFrame = 0;
+    private long lastFrameTime = 0;
+    private final int frameDuration = 100; // Duration for each frame in milliseconds
 
     // Collision box size (smaller than the player's visible size)
     private final int collisionBoxWidth = size - 20; // 10 pixels smaller in width
@@ -42,6 +49,37 @@ public class Player {
     public Player() {
         // Initialize the collision box
         updateCollisionBox();
+        loadAnimationFrames();
+    }
+
+    private void loadAnimationFrames() {
+        // Load idle frames
+        idleFrames.add("assets/images/Player/idle/Player1.png");
+        idleFrames.add("assets/images/Player/idle/Player2.png");
+        idleFrames.add("assets/images/Player/idle/Player3.png");
+        idleFrames.add("assets/images/Player/idle/Player4.png");
+        idleFrames.add("assets/images/Player/idle/Player5.png");
+        idleFrames.add("assets/images/Player/idle/Player6.png");
+        idleFrames.add("assets/images/Player/idle/Player7.png");
+        idleFrames.add("assets/images/Player/idle/Player8.png");
+        idleFrames.add("assets/images/Player/idle/Player9.png");
+        idleFrames.add("assets/images/Player/idle/Player10.png");
+        idleFrames.add("assets/images/Player/idle/Player11.png");
+        idleFrames.add("assets/images/Player/idle/Player12.png");
+
+
+
+        // Load walking frames
+        walkingFrames.add("assets/images/Player/run/Player25.png");
+        walkingFrames.add("assets/images/Player/run/Player26.png");
+        walkingFrames.add("assets/images/Player/run/Player27.png");
+        walkingFrames.add("assets/images/Player/run/Player28.png");
+        walkingFrames.add("assets/images/Player/run/Player29.png");
+        walkingFrames.add("assets/images/Player/run/Player30.png");
+        walkingFrames.add("assets/images/Player/run/Player31.png");
+        walkingFrames.add("assets/images/Player/run/Player32.png");
+
+
     }
 
     public void update(List<Enemy> enemies, List<Tile> tiles, Camera camera) {
@@ -180,8 +218,17 @@ public class Player {
         SaxionApp.setFill(null);
         SaxionApp.drawRectangle(collisionBox.x - camera.getX(), collisionBox.y - camera.getY(), collisionBox.width, collisionBox.height);
 
-        // Draw the player image
-        SaxionApp.drawImage(path, x - camera.getX(), y - camera.getY(), size, size);
+        // Determine the current animation frames
+        List<String> currentFrames = activeKeys.contains(KeyEvent.VK_A) || activeKeys.contains(KeyEvent.VK_D) ? walkingFrames : idleFrames;
+
+        // Update the current frame based on time
+        if (System.currentTimeMillis() - lastFrameTime >= frameDuration) {
+            currentFrame = (currentFrame + 1) % currentFrames.size();
+            lastFrameTime = System.currentTimeMillis();
+        }
+
+        // Draw the current frame
+        SaxionApp.drawImage(currentFrames.get(currentFrame), x - camera.getX()-20, y - camera.getY()-35, size+60, size+60);
     }
 
     private void updateCollisionBox() {
