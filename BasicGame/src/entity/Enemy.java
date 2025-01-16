@@ -193,11 +193,12 @@ public class Enemy {
     }
 
     private Rectangle getAttackBox() {
-        int attackBoxSize = size;
+        int attackBoxWidth = size ;
+        int attackBoxHeight = size;
         if (facingRight) {
-            return new Rectangle(x + size, y, attackBoxSize, attackBoxSize);
+            return new Rectangle(x + size-40, y, attackBoxWidth, attackBoxHeight);
         } else {
-            return new Rectangle(x - attackBoxSize, y, attackBoxSize, attackBoxSize);
+            return new Rectangle(x - attackBoxWidth+40, y, attackBoxWidth, attackBoxHeight);
         }
     }
 
