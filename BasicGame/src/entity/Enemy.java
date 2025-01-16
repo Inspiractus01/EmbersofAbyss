@@ -28,7 +28,7 @@ public class Enemy {
     private Game game;
     private boolean isAttacking = false;
     private long attackStartTime = 0;
-    private final int attackDelay = 2000; // 2 seconds delay for attack animation
+    private final int attackDelay = 1000; // 2 seconds delay for attack animation
     private boolean playerDetected = false;
     private boolean facingRight = true;
 
@@ -181,7 +181,7 @@ public class Enemy {
             return facingRight ? deathFramesRight : deathFramesLeft;
         } else if (isAttacking) {
             return facingRight ? attackingFramesRight : attackingFramesLeft;
-        } else if (playerDetected) {
+        } else if (playerDetected || moveSpeed != 0) {
             return facingRight ? runningFramesRight : runningFramesLeft;
         } else {
             return facingRight ? idleFramesRight : idleFramesLeft;
@@ -193,12 +193,12 @@ public class Enemy {
     }
 
     private Rectangle getAttackBox() {
-        int attackBoxWidth = size ;
+        int attackBoxWidth = size;
         int attackBoxHeight = size;
         if (facingRight) {
-            return new Rectangle(x + size-40, y, attackBoxWidth, attackBoxHeight);
+            return new Rectangle(x + size, y, attackBoxWidth, attackBoxHeight);
         } else {
-            return new Rectangle(x - attackBoxWidth+40, y, attackBoxWidth, attackBoxHeight);
+            return new Rectangle(x - attackBoxWidth, y, attackBoxWidth, attackBoxHeight);
         }
     }
 
@@ -207,14 +207,18 @@ public class Enemy {
             List<String> currentFrames = getCurrentFrames();
             if (!currentFrames.isEmpty() && currentFrame < currentFrames.size()) {
                 String currentFrameImage = currentFrames.get(currentFrame);
-                SaxionApp.drawImage(currentFrameImage, x - camera.getX(), y - camera.getY(), size, size);
+                SaxionApp.drawImage(currentFrameImage, x - camera.getX(), y - camera.getY()-29, size+50, size+50);
             }
 
             // Draw attack range
             Color transparentOrange = new Color(255, 165, 0, 50); // Orange with alpha for transparency
             SaxionApp.setFill(transparentOrange);
             Rectangle attackBox = getAttackBox();
-            SaxionApp.drawRectangle(attackBox.x - camera.getX(), attackBox.y - camera.getY(), attackBox.width, attackBox.height);
+            if (facingRight) {
+                SaxionApp.drawRectangle(attackBox.x - camera.getX()-30, attackBox.y - camera.getY(), attackBox.width+20, attackBox.height);
+            } else {
+                SaxionApp.drawRectangle(attackBox.x - camera.getX()+50, attackBox.y - camera.getY(), attackBox.width+20, attackBox.height);
+            }
         }
     }
 }
