@@ -323,6 +323,7 @@ public class Player {
             }
         }
     }
+
     public void takeDamage(int damage) {
         health -= damage;
         if (health <= 0) {
@@ -330,6 +331,7 @@ public class Player {
             System.out.println("Player is dead");
         }
     }
+
     public int getX() {
         return x;
     }
@@ -348,5 +350,9 @@ public class Player {
 
     public int getMaxStamina() {
         return maxStamina;
+    }
+
+    public Rectangle getBounds() {
+        return collisionBox;
     }
 }

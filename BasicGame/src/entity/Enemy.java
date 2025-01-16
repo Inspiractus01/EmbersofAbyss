@@ -19,7 +19,7 @@ public class Enemy {
     private int runSpeed = 2; // Speed when running towards the player
     private int leftBorder, rightBorder, topBorder, bottomBorder;
     private long lastAttackTime = 0;
-    private final int attackCooldown = 2000; // Time between attacks in milliseconds
+    private final int attackCooldown = 400; // Time between attacks in milliseconds
     private final int attackRange = size + 20; // Distance within which the enemy will attack the player
     private final int detectionRange = 200; // Distance within which the enemy will detect the player
     private final int gravity = 3;
@@ -29,6 +29,7 @@ public class Enemy {
     private long attackStartTime = 0;
     private final int attackDelay = 2000; // 2 seconds delay for attack animation
     private boolean playerDetected = false;
+    private boolean facingRight = true;
 
     public Enemy(int startX, int startY, int leftBorder, int rightBorder, int topBorder, int bottomBorder, Game game) {
         this.x = startX;
@@ -110,8 +111,9 @@ public class Enemy {
         if (isAttacking) {
             // Wait for attack delay
             if (currentTime - attackStartTime >= attackDelay) {
-                if (Math.abs(player.getX() - x) < attackRange && Math.abs(player.getY() - y) < attackRange) {
-                    player.takeDamage(5); // Attack the player if still in range
+                Rectangle attackBox = getAttackBox();
+                if (attackBox.intersects(player.getBounds())) {
+                    player.takeDamage(5); // Attack the player if within attack box
                 }
                 lastAttackTime = currentTime;
                 isAttacking = false;
@@ -120,8 +122,10 @@ public class Enemy {
             // Move towards the player
             if (player.getX() > x) {
                 x += runSpeed;
+                facingRight = true;
             } else if (player.getX() < x) {
                 x -= runSpeed;
+                facingRight = false;
             }
 
             if (player.getY() > y) {
@@ -133,6 +137,7 @@ public class Enemy {
             // Wandering logic
             if (x < leftBorder || x > rightBorder) {
                 moveSpeed = -moveSpeed; // Change direction when hitting borders
+                facingRight = !facingRight;
             }
             x += moveSpeed;
         }
@@ -140,6 +145,15 @@ public class Enemy {
 
     private Rectangle getCollisionBoxWithOffset(int offsetX, int offsetY) {
         return new Rectangle(x + offsetX, y + offsetY, size, size);
+    }
+
+    private Rectangle getAttackBox() {
+        int attackBoxSize = size;
+        if (facingRight) {
+            return new Rectangle(x + size, y, attackBoxSize, attackBoxSize);
+        } else {
+            return new Rectangle(x - attackBoxSize, y, attackBoxSize, attackBoxSize);
+        }
     }
 
     public void draw(Camera camera) {
@@ -154,7 +168,8 @@ public class Enemy {
             // Draw attack range
             Color transparentOrange = new Color(255, 165, 0, 50); // Orange with alpha for transparency
             SaxionApp.setFill(transparentOrange);
-            SaxionApp.drawCircle(x - camera.getX() + size / 2, y - camera.getY() + size / 2, attackRange);
+            Rectangle attackBox = getAttackBox();
+            SaxionApp.drawRectangle(attackBox.x - camera.getX(), attackBox.y - camera.getY(), attackBox.width, attackBox.height);
         }
     }
 }
