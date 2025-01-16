@@ -21,6 +21,7 @@ public class Player {
     private int verticalVelocity = -20;
     private final int gravity = 3;
     private boolean isJumping = false;
+    private boolean isFalling = false;
     private boolean canJump = true;
     private long lastJumpTime = 0;
     private final Set<Integer> activeKeys = new HashSet<>();
@@ -32,7 +33,7 @@ public class Player {
     private final int staminaRegenDelay = 3000;
     private boolean hasJumped = false; // Flag to track jump initiation
     private int health = 100;
-    private final int attackCooldown =1000;
+    private final int attackCooldown = 1000;
     private long lastAttackTime = 0;
     private boolean isAttacking = false; // Flag to track if an attack is in progress
     private long attackStartTime = 0; // Time when the attack started
@@ -137,6 +138,7 @@ public class Player {
                         y = tileBounds.y + tileBounds.height;
                         verticalVelocity = 0;
                         isJumping = false;
+                        isFalling = true;
                         canJump = false;
                         lastJumpTime = System.currentTimeMillis();
                         break;
@@ -155,6 +157,7 @@ public class Player {
                     y = tileBounds.y - size;
                     verticalVelocity = 0;
                     isJumping = false;
+                    isFalling = false;
                     canJump = false;
                     lastJumpTime = System.currentTimeMillis();
                     break;
@@ -173,6 +176,7 @@ public class Player {
         if (!isJumping && canJump && (activeKeys.contains(KeyEvent.VK_W) || activeKeys.contains(KeyEvent.VK_SPACE))
                 && stamina >= staminaDepletion && !hasJumped) {
             isJumping = true;
+            isFalling = false;
             hasJumped = true; // Mark jump initiation
             verticalVelocity = -20;
             stamina -= staminaDepletion;
@@ -182,6 +186,11 @@ public class Player {
         // Reset hasJumped when keys are released
         if (!(activeKeys.contains(KeyEvent.VK_W) || activeKeys.contains(KeyEvent.VK_SPACE))) {
             hasJumped = false;
+        }
+
+        // Set falling state
+        if (verticalVelocity > 0 && !isOnGround(tiles)) {
+            isFalling = true;
         }
 
         // Regenerate stamina
@@ -229,7 +238,7 @@ public class Player {
     }
 
     private void performAttack(List<Enemy> enemies, Camera camera) {
-        Rectangle attackHitbox = new Rectangle(x+35, y, size, size);  //To change the attack hitbox size, change the values of x or add some to the size
+        Rectangle attackHitbox = new Rectangle(x + 35, y, size, size);  //To change the attack hitbox size, change the values of x or add some to the size
 
         for (Enemy enemy : enemies) {
             if (attackHitbox.intersects(enemy.getBounds())) {
@@ -257,9 +266,9 @@ public class Player {
                 isAttacking = false;
                 attackHit = false; // Reset attack hit flag
             }
-        } else if (isJumping) {
+        } else if (isJumping && !isFalling) {
             currentFrames = jumpingFrames;
-        } else if (verticalVelocity > 0 && !isOnGround(new ArrayList<>())) {
+        } else if (isFalling) {
             currentFrames = fallingFrames;
         } else if (activeKeys.contains(KeyEvent.VK_A) || activeKeys.contains(KeyEvent.VK_D)) {
             currentFrames = walkingFrames;
@@ -303,6 +312,7 @@ public class Player {
             if ((keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_SPACE) && !isJumping && canJump
                     && stamina >= staminaDepletion && !hasJumped) {
                 isJumping = true;
+                isFalling = false;
                 hasJumped = true;
                 verticalVelocity = -20;
                 stamina -= staminaDepletion;
