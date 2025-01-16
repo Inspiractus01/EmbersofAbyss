@@ -20,14 +20,15 @@ public class Enemy {
     private int leftBorder, rightBorder, topBorder, bottomBorder;
     private long lastAttackTime = 0;
     private final int attackCooldown = 2000; // Time between attacks in milliseconds
-    private final int attackRange = size + 50; // Distance within which the enemy will attack the player
+    private final int attackRange = size + 20; // Distance within which the enemy will attack the player
     private final int detectionRange = 200; // Distance within which the enemy will detect the player
     private final int gravity = 3;
     private int verticalVelocity = 0;
     private Game game;
     private boolean isAttacking = false;
     private long attackStartTime = 0;
-    private final int attackDelay = 2000; // 3 seconds delay for attack animation
+    private final int attackDelay = 2000; // 2 seconds delay for attack animation
+    private boolean playerDetected = false;
 
     public Enemy(int startX, int startY, int leftBorder, int rightBorder, int topBorder, int bottomBorder, Game game) {
         this.x = startX;
@@ -96,48 +97,44 @@ public class Enemy {
 
         // Check if player is within detection range
         if (Math.abs(player.getX() - x) < detectionRange && Math.abs(player.getY() - y) < detectionRange) {
+            playerDetected = true;
             // Check if player is within attack range
             if (Math.abs(player.getX() - x) < attackRange && Math.abs(player.getY() - y) < attackRange) {
                 if (!isAttacking && currentTime - lastAttackTime >= attackCooldown) {
                     isAttacking = true;
                     attackStartTime = currentTime;
                 }
+            }
+        }
 
-                if (isAttacking) {
-                    // Wait for attack delay
-                    if (currentTime - attackStartTime >= attackDelay) {
-                        player.takeDamage(5); // Attack the player
-                        lastAttackTime = currentTime;
-                        isAttacking = false;
-                    }
+        if (isAttacking) {
+            // Wait for attack delay
+            if (currentTime - attackStartTime >= attackDelay) {
+                if (Math.abs(player.getX() - x) < attackRange && Math.abs(player.getY() - y) < attackRange) {
+                    player.takeDamage(5); // Attack the player if still in range
                 }
-            } else {
-                // Stop attacking if player moves out of attack range
+                lastAttackTime = currentTime;
                 isAttacking = false;
+            }
+        } else if (playerDetected) {
+            // Move towards the player
+            if (player.getX() > x) {
+                x += runSpeed;
+            } else if (player.getX() < x) {
+                x -= runSpeed;
+            }
 
-                // Move towards the player
-                if (!isAttacking) {
-                    if (player.getX() > x) {
-                        x += runSpeed;
-                    } else if (player.getX() < x) {
-                        x -= runSpeed;
-                    }
-
-                    if (player.getY() > y) {
-                        y += runSpeed;
-                    } else if (player.getY() < y) {
-                        y -= runSpeed;
-                    }
-                }
+            if (player.getY() > y) {
+                y += runSpeed;
+            } else if (player.getY() < y) {
+                y -= runSpeed;
             }
         } else {
             // Wandering logic
-            if (!isAttacking) {
-                if (x < leftBorder || x > rightBorder) {
-                    moveSpeed = -moveSpeed; // Change direction when hitting borders
-                }
-                x += moveSpeed;
+            if (x < leftBorder || x > rightBorder) {
+                moveSpeed = -moveSpeed; // Change direction when hitting borders
             }
+            x += moveSpeed;
         }
     }
 
