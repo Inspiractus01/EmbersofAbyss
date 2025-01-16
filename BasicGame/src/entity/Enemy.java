@@ -65,16 +65,18 @@ public class Enemy {
         }
 
         // Apply gravity
-        y += verticalVelocity / 1.7;
-        verticalVelocity += gravity / 3;
+        verticalVelocity += gravity;
+        y += verticalVelocity;
 
         // Check for collision when moving downwards
+        boolean onGround = false;
         if (verticalVelocity > 0) {
             for (Tile tile : tiles) {
                 Rectangle tileBounds = tile.getBounds();
                 if (tile.isSolid() && getCollisionBoxWithOffset(0, verticalVelocity).intersects(tileBounds)) {
                     y = tileBounds.y - size;
                     verticalVelocity = 0;
+                    onGround = true;
                     break;
                 }
             }
@@ -109,6 +111,13 @@ public class Enemy {
                 moveSpeed = -moveSpeed; // Change direction when hitting borders
             }
             x += moveSpeed;
+        }
+
+        // Ensure enemy stays on the ground
+        if (!onGround) {
+            verticalVelocity += gravity;
+        } else {
+            verticalVelocity = 0;
         }
     }
 
