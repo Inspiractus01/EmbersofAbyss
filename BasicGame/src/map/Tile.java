@@ -1,6 +1,7 @@
 package map;
 
 import java.awt.Rectangle;
+import game.Camera;
 
 public abstract class Tile {
     protected int x, y, width, height;
@@ -14,7 +15,7 @@ public abstract class Tile {
         this.solid = solid;
     }
 
-    public abstract void draw();
+    public abstract void draw(Camera camera);
 
     public boolean isSolid() {
         return solid;
