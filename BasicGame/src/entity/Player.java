@@ -37,6 +37,7 @@ public class Player {
     // Animation frames
     private List<String> idleFrames = new ArrayList<>();
     private List<String> walkingFrames = new ArrayList<>();
+    
     private int currentFrame = 0;
     private long lastFrameTime = 0;
     private final int frameDuration = 100; // Duration for each frame in milliseconds
@@ -217,18 +218,26 @@ public class Player {
         SaxionApp.setBorderColor(Color.BLUE); // Set a different color for the collision box
         SaxionApp.setFill(null);
         SaxionApp.drawRectangle(collisionBox.x - camera.getX(), collisionBox.y - camera.getY(), collisionBox.width, collisionBox.height);
-
+    
         // Determine the current animation frames
         List<String> currentFrames = activeKeys.contains(KeyEvent.VK_A) || activeKeys.contains(KeyEvent.VK_D) ? walkingFrames : idleFrames;
-
-        // Update the current frame based on time
-        if (System.currentTimeMillis() - lastFrameTime >= frameDuration) {
-            currentFrame = (currentFrame + 1) % currentFrames.size();
-            lastFrameTime = System.currentTimeMillis();
+    
+        // Ensure currentFrames is not empty
+        if (!currentFrames.isEmpty()) {
+            // Update the current frame based on time
+            if (System.currentTimeMillis() - lastFrameTime >= frameDuration) {
+                currentFrame = (currentFrame + 1) % currentFrames.size();
+                lastFrameTime = System.currentTimeMillis();
+            }
+    
+            // Ensure currentFrame is within bounds
+            if (currentFrame >= currentFrames.size()) {
+                currentFrame = 0;
+            }
+    
+            // Draw the current frame
+            SaxionApp.drawImage(currentFrames.get(currentFrame), x - camera.getX() - 20, y - camera.getY() - 37, size + 60, size + 60);
         }
-
-        // Draw the current frame
-        SaxionApp.drawImage(currentFrames.get(currentFrame), x - camera.getX()-20, y - camera.getY()-35, size+60, size+60);
     }
 
     private void updateCollisionBox() {
