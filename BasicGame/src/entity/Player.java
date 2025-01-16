@@ -246,16 +246,17 @@ public class Player {
         }
 
         // Draw the attack hitbox around the player
-        SaxionApp.setFill(Color.RED);
+        Color transparentOrange = new Color(255, 165, 0, 0); // Orange with alpha for transparency
+        SaxionApp.setFill(transparentOrange);
         SaxionApp.drawRectangle(attackHitbox.x - camera.getX(), attackHitbox.y - camera.getY(), attackHitbox.width, attackHitbox.height);
     }
 
     public void render(Camera camera) {
+        Color transparentOrange = new Color(255, 165, 0, 0);
         // Draw the collision box for debugging
-        SaxionApp.setBorderColor(Color.BLUE); // Set a different color for the collision box
+        SaxionApp.setBorderColor(transparentOrange); // Set a different color for the collision box
         SaxionApp.setFill(null);
         SaxionApp.drawRectangle(collisionBox.x - camera.getX(), collisionBox.y - camera.getY(), collisionBox.width, collisionBox.height);
-
         // Determine the current animation frames
         List<String> currentFrames;
         if (isAttacking) {

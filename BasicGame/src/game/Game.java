@@ -6,6 +6,7 @@ import nl.saxion.app.interaction.KeyboardEvent;
 import nl.saxion.app.interaction.MouseEvent;
 import ui.UI;
 
+import java.awt.Color;
 import java.util.List;
 import entity.Enemy;
 import entity.Player;
@@ -44,6 +45,7 @@ public class Game implements GameLoop {
         player.render(camera);
 
         // Draw the UI elements
+        SaxionApp.setBorderColor(Color.gray);
         ui.drawHealthBar(player.getHealth());
         ui.drawStaminaBar(player.getStamina(), player.getMaxStamina());
 
