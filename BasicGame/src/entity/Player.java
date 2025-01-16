@@ -27,12 +27,16 @@ public class Player {
     private int stamina = 100;
     private final int maxStamina = 100;
     private final int staminaDepletion = 20;
+    private final int staminaAttack = 15;
     private long lastStaminaChange = 0;
     private final int staminaRegenDelay = 3000;
     private boolean hasJumped = false; // Flag to track jump initiation
     private int health = 100;
-    private final int attackCooldown = 500;
+    private final int attackCooldown =1000;
     private long lastAttackTime = 0;
+    private boolean isAttacking = false; // Flag to track if an attack is in progress
+    private long attackStartTime = 0; // Time when the attack started
+    private boolean attackHit = false; // Flag to indicate when the attack should hit
 
     // Animation frames
     private List<String> idleFrames = new ArrayList<>();
@@ -192,10 +196,12 @@ public class Player {
             }
         }
 
-        // Handle attack
-        if (activeKeys.contains(KeyEvent.VK_K) && System.currentTimeMillis() - lastAttackTime > attackCooldown) {
+        // Handle attack hit delay
+        if (isAttacking && !attackHit && System.currentTimeMillis() - attackStartTime >= 400) {
             performAttack(enemies, camera);
+            attackHit = true;
         }
+
         // Update the collision box position
         updateCollisionBox();
     }
@@ -223,8 +229,7 @@ public class Player {
     }
 
     private void performAttack(List<Enemy> enemies, Camera camera) {
-        lastAttackTime = System.currentTimeMillis();
-        Rectangle attackHitbox = new Rectangle(x, y, size, size);
+        Rectangle attackHitbox = new Rectangle(x+35, y, size, size);  //To change the attack hitbox size, change the values of x or add some to the size
 
         for (Enemy enemy : enemies) {
             if (attackHitbox.intersects(enemy.getBounds())) {
@@ -245,11 +250,16 @@ public class Player {
 
         // Determine the current animation frames
         List<String> currentFrames;
-        if (activeKeys.contains(KeyEvent.VK_K)) {
+        if (isAttacking) {
             currentFrames = attackingFrames;
+            // Check if the attack animation duration has passed
+            if (System.currentTimeMillis() - attackStartTime >= attackingFrames.size() * frameDuration) {
+                isAttacking = false;
+                attackHit = false; // Reset attack hit flag
+            }
         } else if (isJumping) {
             currentFrames = jumpingFrames;
-        } else if (verticalVelocity > 0) {
+        } else if (verticalVelocity > 0 && !isOnGround(new ArrayList<>())) {
             currentFrames = fallingFrames;
         } else if (activeKeys.contains(KeyEvent.VK_A) || activeKeys.contains(KeyEvent.VK_D)) {
             currentFrames = walkingFrames;
@@ -297,6 +307,14 @@ public class Player {
                 verticalVelocity = -20;
                 stamina -= staminaDepletion;
                 lastStaminaChange = System.currentTimeMillis();
+            }
+            if (keyCode == KeyEvent.VK_K && System.currentTimeMillis() - lastAttackTime > attackCooldown && stamina >= staminaDepletion) {
+                isAttacking = true;
+                attackStartTime = System.currentTimeMillis();
+                lastAttackTime = attackStartTime;
+                attackHit = false; // Reset attack hit flag
+                lastStaminaChange = System.currentTimeMillis(); 
+                stamina -= staminaAttack;
             }
         } else {
             activeKeys.remove(keyCode);
