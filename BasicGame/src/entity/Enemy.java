@@ -12,10 +12,23 @@ public class Enemy {
     private int size = GameSettings.tileSize;
     private int health = 30;
     private boolean isDead = false;
+    private int moveSpeed = 1;
+    private int runSpeed = 2; // Speed when running towards the player
+    private int leftBorder, rightBorder, topBorder, bottomBorder;
+    private long lastAttackTime = 0;
+    private final int attackCooldown = 2000; // Time between attacks in milliseconds
+    private final int attackRange = size; // Distance within which the enemy will attack the player
+    private final int detectionRange = 200; // Distance within which the enemy will detect the player
+    private Game game;
 
-    public Enemy(int startX, int startY, Game game) {
+    public Enemy(int startX, int startY, int leftBorder, int rightBorder, int topBorder, int bottomBorder, Game game) {
         this.x = startX;
         this.y = startY;
+        this.leftBorder = leftBorder;
+        this.rightBorder = rightBorder;
+        this.topBorder = topBorder;
+        this.bottomBorder = bottomBorder;
+        this.game = game;
     }
 
     public void takeDamage(int damage) {
@@ -39,6 +52,43 @@ public class Enemy {
             return new Rectangle(0, 0, 0, 0);
         }
         return new Rectangle(x, y, size, size);
+    }
+
+    public void update(Player player) {
+        if (isDead) {
+            return;
+        }
+
+        // Check if player is within detection range
+        if (Math.abs(player.getX() - x) < detectionRange && Math.abs(player.getY() - y) < detectionRange) {
+            // Move towards the player
+            if (player.getX() > x) {
+                x += runSpeed;
+            } else if (player.getX() < x) {
+                x -= runSpeed;
+            }
+
+            if (player.getY() > y) {
+                y += runSpeed;
+            } else if (player.getY() < y) {
+                y -= runSpeed;
+            }
+
+            // Check if player is within attack range
+            if (Math.abs(player.getX() - x) < attackRange && Math.abs(player.getY() - y) < attackRange) {
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastAttackTime >= attackCooldown) {
+                    player.takeDamage(5); // Attack the player
+                    lastAttackTime = currentTime;
+                }
+            }
+        } else {
+            // Wandering logic
+            if (x < leftBorder || x > rightBorder) {
+                moveSpeed = -moveSpeed; // Change direction when hitting borders
+            }
+            x += moveSpeed;
+        }
     }
 
     public void draw(Camera camera) {

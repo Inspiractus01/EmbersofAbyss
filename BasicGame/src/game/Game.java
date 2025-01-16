@@ -49,6 +49,7 @@ public class Game implements GameLoop {
 
         for (Enemy enemy : enemies) {
             if (!enemy.isDead()) {
+                enemy.update(player); // Update enemy logic
                 enemy.draw(camera);
             }
         }

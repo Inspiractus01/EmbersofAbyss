@@ -323,7 +323,13 @@ public class Player {
             }
         }
     }
-
+    public void takeDamage(int damage) {
+        health -= damage;
+        if (health <= 0) {
+            // Handle player death (e.g., game over logic)
+            System.out.println("Player is dead");
+        }
+    }
     public int getX() {
         return x;
     }

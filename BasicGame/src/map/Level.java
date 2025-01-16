@@ -44,12 +44,16 @@ public class Level {
                             tiles.add(new Platform_tile(x * tileSize, y * tileSize, tileSize, tileSize, true));
                             break;
 
-                            case '4': // Ground tile
+                        case '4': // Ground tile
                             tiles.add(new Under_tile(x * tileSize, y * tileSize, tileSize, tileSize, true));
                             break;
 
                         case '9': // Enemy
-                            enemies.add(new Enemy(x * tileSize, y * tileSize, game));
+                            int leftBorder = x * tileSize - 100; // Example left border value
+                            int rightBorder = x * tileSize + 100; // Example right border value
+                            int topBorder = y * tileSize - 50; // Example top border value
+                            int bottomBorder = y * tileSize + 50; // Example bottom border value
+                            enemies.add(new Enemy(x * tileSize, y * tileSize, leftBorder, rightBorder, topBorder, bottomBorder, game));
                             break;
 
                         case '0': // Empty Space
