@@ -150,6 +150,11 @@ public class Enemy {
                 SaxionApp.setFill(Color.red);
             }
             SaxionApp.drawRectangle(x - camera.getX(), y - camera.getY(), size, size);
+
+            // Draw attack range
+            Color transparentOrange = new Color(255, 165, 0, 50); // Orange with alpha for transparency
+            SaxionApp.setFill(transparentOrange);
+            SaxionApp.drawCircle(x - camera.getX() + size / 2, y - camera.getY() + size / 2, attackRange);
         }
     }
 }
