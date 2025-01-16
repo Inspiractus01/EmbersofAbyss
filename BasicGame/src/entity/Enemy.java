@@ -215,6 +215,7 @@ public class Enemy {
             // Draw attack range
             Color transparentOrange = new Color(255, 165, 0, 0); // Orange with alpha for transparency
             SaxionApp.setFill(transparentOrange);
+            SaxionApp.setBorderColor(transparentOrange);
             Rectangle attackBox = getAttackBox();
             if (facingRight) {
                 SaxionApp.drawRectangle(attackBox.x - camera.getX()-30, attackBox.y - camera.getY(), attackBox.width+50, attackBox.height);
