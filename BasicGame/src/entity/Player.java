@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import game.SoundManager;
+
+
+
 
 import main.GameSettings;
 import game.Camera;
@@ -45,6 +49,10 @@ public class Player {
     private long attackStartTime = 0; // Time when the attack started
     private boolean attackHit = false; // Flag to indicate when the attack should hit
     private boolean attackInProgress = false; // Flag to indicate if attack animation is in progress
+
+    //sound effects
+    private final String swordSoundPath = "resources/sound/Sword.wav";
+    private final String jumpSoundPath = "resources/sound/Jump.wav";
 
     // Animation frames
     private List<String> idleFrames = new ArrayList<>();
@@ -323,6 +331,7 @@ public class Player {
                 verticalVelocity = -20;
                 stamina -= staminaDepletion;
                 lastStaminaChange = System.currentTimeMillis();
+                SoundManager.playSound(jumpSoundPath);
             }
             if (keyCode == KeyEvent.VK_K && System.currentTimeMillis() - lastAttackTime > attackCooldown && stamina >= staminaDepletion) {
                 isAttacking = true;
@@ -332,6 +341,7 @@ public class Player {
                 attackInProgress = true; // Set attack in progress flag
                 lastStaminaChange = System.currentTimeMillis(); 
                 stamina -= staminaAttack;
+                SoundManager.playSound(swordSoundPath);
             }
         } else {
             activeKeys.remove(keyCode);

@@ -18,12 +18,14 @@ public class Game implements GameLoop {
     private List<Enemy> enemies;
     private Level level;
     private Camera camera;
+    private SoundManager audioManager = new SoundManager();
 
     @Override
     public void init() {
         level = new Level("BasicGame/levels/level1.map", this);
         enemies = level.getEnemies(); // Load enemies from level
         camera = new Camera(player.getX(), player.getY());
+        audioManager.playBackgroundMusic("resources/sounds/background_music-silent.wav");
     }
 
     public void removeEnemy(Enemy enemy) {
