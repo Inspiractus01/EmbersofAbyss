@@ -140,25 +140,27 @@ public class Enemy {
             if (currentTime - attackStartTime >= attackDelay) {
                 Rectangle attackBox = getAttackBox();
                 if (attackBox.intersects(player.getBounds())) {
-                    player.takeDamage(5); // Attack the player if within attack box
+                    player.takeDamage(15); // Attack the player if within attack box
                 }
                 lastAttackTime = currentTime;
                 isAttacking = false;
             }
         } else if (playerDetected) {
-            // Move towards the player
-            if (player.getX() > x) {
-                x += runSpeed;
-                facingRight = true;
-            } else if (player.getX() < x) {
-                x -= runSpeed;
-                facingRight = false;
-            }
+            // Move towards the player if not too close
+            if (Math.abs(player.getX() - x) > size / 2) {
+                if (player.getX() > x) {
+                    x += runSpeed;
+                    facingRight = true;
+                } else if (player.getX() < x) {
+                    x -= runSpeed;
+                    facingRight = false;
+                }
 
-            if (player.getY() > y) {
-                y += runSpeed;
-            } else if (player.getY() < y) {
-                y -= runSpeed;
+                if (player.getY() > y) {
+                    y += runSpeed;
+                } else if (player.getY() < y) {
+                    y -= runSpeed;
+                }
             }
         } else {
             // Wandering logic
@@ -211,13 +213,13 @@ public class Enemy {
             }
 
             // Draw attack range
-            Color transparentOrange = new Color(255, 165, 0, 50); // Orange with alpha for transparency
+            Color transparentOrange = new Color(255, 165, 0, 0); // Orange with alpha for transparency
             SaxionApp.setFill(transparentOrange);
             Rectangle attackBox = getAttackBox();
             if (facingRight) {
-                SaxionApp.drawRectangle(attackBox.x - camera.getX()-30, attackBox.y - camera.getY(), attackBox.width+20, attackBox.height);
+                SaxionApp.drawRectangle(attackBox.x - camera.getX()-30, attackBox.y - camera.getY(), attackBox.width+50, attackBox.height);
             } else {
-                SaxionApp.drawRectangle(attackBox.x - camera.getX()+50, attackBox.y - camera.getY(), attackBox.width+20, attackBox.height);
+                SaxionApp.drawRectangle(attackBox.x - camera.getX()+50, attackBox.y - camera.getY(), attackBox.width+50, attackBox.height);
             }
         }
     }
