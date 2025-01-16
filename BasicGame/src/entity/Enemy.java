@@ -6,6 +6,9 @@ import java.awt.Rectangle;
 import game.Game;
 import main.GameSettings;
 import game.Camera;
+import map.Tile;
+
+import java.util.List;
 
 public class Enemy {
     private int x, y;
@@ -19,6 +22,8 @@ public class Enemy {
     private final int attackCooldown = 2000; // Time between attacks in milliseconds
     private final int attackRange = size; // Distance within which the enemy will attack the player
     private final int detectionRange = 200; // Distance within which the enemy will detect the player
+    private final int gravity = 3;
+    private int verticalVelocity = 0;
     private Game game;
 
     public Enemy(int startX, int startY, int leftBorder, int rightBorder, int topBorder, int bottomBorder, Game game) {
@@ -54,9 +59,25 @@ public class Enemy {
         return new Rectangle(x, y, size, size);
     }
 
-    public void update(Player player) {
+    public void update(Player player, List<Tile> tiles) {
         if (isDead) {
             return;
+        }
+
+        // Apply gravity
+        y += verticalVelocity / 1.7;
+        verticalVelocity += gravity / 3;
+
+        // Check for collision when moving downwards
+        if (verticalVelocity > 0) {
+            for (Tile tile : tiles) {
+                Rectangle tileBounds = tile.getBounds();
+                if (tile.isSolid() && getCollisionBoxWithOffset(0, verticalVelocity).intersects(tileBounds)) {
+                    y = tileBounds.y - size;
+                    verticalVelocity = 0;
+                    break;
+                }
+            }
         }
 
         // Check if player is within detection range
@@ -89,6 +110,10 @@ public class Enemy {
             }
             x += moveSpeed;
         }
+    }
+
+    private Rectangle getCollisionBoxWithOffset(int offsetX, int offsetY) {
+        return new Rectangle(x + offsetX, y + offsetY, size, size);
     }
 
     public void draw(Camera camera) {
