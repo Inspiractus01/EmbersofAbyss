@@ -52,7 +52,7 @@ public class Player {
     private List<String> previousFrames = null; // To track the previous animation frames
 
     // Collision box size (smaller than the player's visible size)
-    private final int collisionBoxWidth = size - 20; // 10 pixels smaller in width
+    private final int collisionBoxWidth = size - 29; // 10 pixels smaller in width
     private final int collisionBoxHeight = size - 0; // 0 pixels smaller in height
     private Rectangle collisionBox;
 
