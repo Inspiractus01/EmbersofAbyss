@@ -7,7 +7,7 @@ public class Platform_tile extends Tile{
         super(x, y + (height / 4), width, height / 2, solid);
     }
 
-    String path = "assets/images/tiles/placeholder.png";
+    String path = "assets/images/tiles/platform1.png";
 
     @Override
     public void draw(Camera camera) {

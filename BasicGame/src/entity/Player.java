@@ -37,10 +37,14 @@ public class Player {
     // Animation frames
     private List<String> idleFrames = new ArrayList<>();
     private List<String> walkingFrames = new ArrayList<>();
+    private List<String> jumpingFrames = new ArrayList<>();
+    private List<String> fallingFrames = new ArrayList<>();
+    private List<String> attackingFrames = new ArrayList<>();
     
     private int currentFrame = 0;
     private long lastFrameTime = 0;
     private final int frameDuration = 100; // Duration for each frame in milliseconds
+    private List<String> previousFrames = null; // To track the previous animation frames
 
     // Collision box size (smaller than the player's visible size)
     private final int collisionBoxWidth = size - 20; // 10 pixels smaller in width
@@ -68,8 +72,6 @@ public class Player {
         idleFrames.add("assets/images/Player/idle/Player11.png");
         idleFrames.add("assets/images/Player/idle/Player12.png");
 
-
-
         // Load walking frames
         walkingFrames.add("assets/images/Player/run/Player25.png");
         walkingFrames.add("assets/images/Player/run/Player26.png");
@@ -80,7 +82,29 @@ public class Player {
         walkingFrames.add("assets/images/Player/run/Player31.png");
         walkingFrames.add("assets/images/Player/run/Player32.png");
 
+        // Load jumping frames
+        jumpingFrames.add("assets/images/Player/jump/Player41.png");
+        jumpingFrames.add("assets/images/Player/jump/Player42.png");
+        jumpingFrames.add("assets/images/Player/jump/Player43.png");
+        jumpingFrames.add("assets/images/Player/jump/Player44.png");
 
+        // Load falling frames
+        fallingFrames.add("assets/images/Player/fall/Player57.png");
+        fallingFrames.add("assets/images/Player/fall/Player58.png");
+        fallingFrames.add("assets/images/Player/fall/Player59.png");
+        fallingFrames.add("assets/images/Player/fall/Player60.png");
+
+        // Load attacking frames
+        attackingFrames.add("assets/images/Player/attack/Player73.png");
+        attackingFrames.add("assets/images/Player/attack/Player74.png");
+        attackingFrames.add("assets/images/Player/attack/Player75.png");
+        attackingFrames.add("assets/images/Player/attack/Player76.png");
+        attackingFrames.add("assets/images/Player/attack/Player77.png");
+        attackingFrames.add("assets/images/Player/attack/Player78.png");
+        attackingFrames.add("assets/images/Player/attack/Player79.png");
+        attackingFrames.add("assets/images/Player/attack/Player80.png");
+        attackingFrames.add("assets/images/Player/attack/Player81.png");
+        attackingFrames.add("assets/images/Player/attack/Player82.png");
     }
 
     public void update(List<Enemy> enemies, List<Tile> tiles, Camera camera) {
@@ -218,10 +242,27 @@ public class Player {
         SaxionApp.setBorderColor(Color.BLUE); // Set a different color for the collision box
         SaxionApp.setFill(null);
         SaxionApp.drawRectangle(collisionBox.x - camera.getX(), collisionBox.y - camera.getY(), collisionBox.width, collisionBox.height);
-    
+
         // Determine the current animation frames
-        List<String> currentFrames = activeKeys.contains(KeyEvent.VK_A) || activeKeys.contains(KeyEvent.VK_D) ? walkingFrames : idleFrames;
-    
+        List<String> currentFrames;
+        if (activeKeys.contains(KeyEvent.VK_K)) {
+            currentFrames = attackingFrames;
+        } else if (isJumping) {
+            currentFrames = jumpingFrames;
+        } else if (verticalVelocity > 0) {
+            currentFrames = fallingFrames;
+        } else if (activeKeys.contains(KeyEvent.VK_A) || activeKeys.contains(KeyEvent.VK_D)) {
+            currentFrames = walkingFrames;
+        } else {
+            currentFrames = idleFrames;
+        }
+
+        // Reset currentFrame if the animation state has changed
+        if (currentFrames != previousFrames) {
+            currentFrame = 0;
+            previousFrames = currentFrames;
+        }
+
         // Ensure currentFrames is not empty
         if (!currentFrames.isEmpty()) {
             // Update the current frame based on time
@@ -229,14 +270,9 @@ public class Player {
                 currentFrame = (currentFrame + 1) % currentFrames.size();
                 lastFrameTime = System.currentTimeMillis();
             }
-    
-            // Ensure currentFrame is within bounds
-            if (currentFrame >= currentFrames.size()) {
-                currentFrame = 0;
-            }
-    
+
             // Draw the current frame
-            SaxionApp.drawImage(currentFrames.get(currentFrame), x - camera.getX() - 20, y - camera.getY() - 37, size + 60, size + 60);
+            SaxionApp.drawImage(currentFrames.get(currentFrame), x - camera.getX() - 20, y - camera.getY() - 35, size + 60, size + 60);
         }
     }
 
