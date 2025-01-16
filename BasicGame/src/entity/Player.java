@@ -38,6 +38,7 @@ public class Player {
     private boolean isAttacking = false; // Flag to track if an attack is in progress
     private long attackStartTime = 0; // Time when the attack started
     private boolean attackHit = false; // Flag to indicate when the attack should hit
+    private boolean attackInProgress = false; // Flag to indicate if attack animation is in progress
 
     // Animation frames
     private List<String> idleFrames = new ArrayList<>();
@@ -72,8 +73,8 @@ public class Player {
     }
 
     private void loadAnimationFrames() {
-
-        idleFrames = AnimationLoader.loadIdleFrames();
+ 
+         idleFrames = AnimationLoader.loadIdleFrames();
          walkingFrames = AnimationLoader.loadWalkingFrames();
          jumpingFrames = AnimationLoader.loadJumpingFrames();
          fallingFrames = AnimationLoader.loadFallingFrames();
@@ -87,16 +88,18 @@ public class Player {
 
     public void update(List<Enemy> enemies, List<Tile> tiles, Camera camera) {
         // Handle horizontal movement
-        if (activeKeys.contains(KeyEvent.VK_A)) {
-            if (!willCollide(x - moveSpeed, y, tiles)) {
-                x -= moveSpeed; // Move left
-                facingLeft = true;
+        if (!attackInProgress) {
+            if (activeKeys.contains(KeyEvent.VK_A)) {
+                if (!willCollide(x - moveSpeed, y, tiles)) {
+                    x -= moveSpeed; // Move left
+                    facingLeft = true;
+                }
             }
-        }
-        if (activeKeys.contains(KeyEvent.VK_D)) {
-            if (!willCollide(x + moveSpeed, y, tiles)) {
-                x += moveSpeed; // Move right
-                facingLeft = false;
+            if (activeKeys.contains(KeyEvent.VK_D)) {
+                if (!willCollide(x + moveSpeed, y, tiles)) {
+                    x += moveSpeed; // Move right
+                    facingLeft = false;
+                }
             }
         }
 
@@ -245,6 +248,9 @@ public class Player {
             if (System.currentTimeMillis() - attackStartTime >= currentFrames.size() * frameDuration) {
                 isAttacking = false;
                 attackHit = false; // Reset attack hit flag
+                attackInProgress = false; // Reset attack in progress flag
+            } else {
+                attackInProgress = true; // Set attack in progress flag
             }
         } else if (isJumping && !isFalling) {
             currentFrames = facingLeft ? jumpingFramesLeft : jumpingFrames;
@@ -306,6 +312,7 @@ public class Player {
                 attackStartTime = System.currentTimeMillis();
                 lastAttackTime = attackStartTime;
                 attackHit = false; // Reset attack hit flag
+                attackInProgress = true; // Set attack in progress flag
                 lastStaminaChange = System.currentTimeMillis(); 
                 stamina -= staminaAttack;
             }

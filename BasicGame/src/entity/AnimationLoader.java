@@ -64,7 +64,7 @@ public class AnimationLoader {
         attackingFrames.add("assets/images/Player/attack/Player79.png");
         attackingFrames.add("assets/images/Player/attack/Player80.png");
         attackingFrames.add("assets/images/Player/attack/Player81.png");
-        attackingFrames.add("assets/images/Player/attack/Player82.png");
+      //  attackingFrames.add("assets/images/Player/attack/Player82.png");
         return attackingFrames;
     }
 
@@ -129,7 +129,7 @@ public class AnimationLoader {
         attackingFramesLeft.add("assets/images/Player-left/attack/Player-l35.png");
         attackingFramesLeft.add("assets/images/Player-left/attack/Player-l36.png");
         attackingFramesLeft.add("assets/images/Player-left/attack/Player-l37.png");
-        attackingFramesLeft.add("assets/images/Player-left/attack/Player-l38.png");
+       // attackingFramesLeft.add("assets/images/Player-left/attack/Player-l38.png");
         return attackingFramesLeft;
     }
 }
