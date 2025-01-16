@@ -33,6 +33,12 @@ public class Player {
     private final int staminaRegenDelay = 3000;
     private boolean hasJumped = false; // Flag to track jump initiation
     private int health = 100;
+    private final int maxHealth = 100;
+    private final int healthRegenAmount = 0; // regen amount per interval turned of now
+    private final int healthRegenDelay = 5000; // Delay before health regeneration starts
+    private final int healthRegenInterval = 1000; // Interval between health regeneration ticks
+    private long lastHealthRegenTime = 0;
+    private long lastDamageTime = 0;
     private final int attackCooldown = 1000;
     private long lastAttackTime = 0;
     private boolean isAttacking = false; // Flag to track if an attack is in progress
@@ -73,17 +79,16 @@ public class Player {
     }
 
     private void loadAnimationFrames() {
- 
-         idleFrames = AnimationLoader.loadIdleFrames();
-         walkingFrames = AnimationLoader.loadWalkingFrames();
-         jumpingFrames = AnimationLoader.loadJumpingFrames();
-         fallingFrames = AnimationLoader.loadFallingFrames();
-         attackingFrames = AnimationLoader.loadAttackingFrames();
-         idleFramesLeft = AnimationLoader.loadIdleFramesLeft();
-         walkingFramesLeft = AnimationLoader.loadWalkingFramesLeft();
-         jumpingFramesLeft = AnimationLoader.loadJumpingFramesLeft();
-         fallingFramesLeft = AnimationLoader.loadFallingFramesLeft();
-         attackingFramesLeft = AnimationLoader.loadAttackingFramesLeft();
+        idleFrames = AnimationLoader.loadIdleFrames();
+        walkingFrames = AnimationLoader.loadWalkingFrames();
+        jumpingFrames = AnimationLoader.loadJumpingFrames();
+        fallingFrames = AnimationLoader.loadFallingFrames();
+        attackingFrames = AnimationLoader.loadAttackingFrames();
+        idleFramesLeft = AnimationLoader.loadIdleFramesLeft();
+        walkingFramesLeft = AnimationLoader.loadWalkingFramesLeft();
+        jumpingFramesLeft = AnimationLoader.loadJumpingFramesLeft();
+        fallingFramesLeft = AnimationLoader.loadFallingFramesLeft();
+        attackingFramesLeft = AnimationLoader.loadAttackingFramesLeft();
     }
 
     public void update(List<Enemy> enemies, List<Tile> tiles, Camera camera) {
@@ -183,6 +188,17 @@ public class Player {
             }
         }
 
+        // Regenerate health
+        if (currentTime - lastDamageTime >= healthRegenDelay && health < maxHealth) {
+            if (currentTime - lastHealthRegenTime >= healthRegenInterval) {
+                health += healthRegenAmount;
+                if (health > maxHealth) {
+                    health = maxHealth;
+                }
+                lastHealthRegenTime = currentTime;
+            }
+        }
+
         // Handle attack hit delay
         if (isAttacking && !attackHit && System.currentTimeMillis() - attackStartTime >= 400) {
             performAttack(enemies, camera);
@@ -218,9 +234,9 @@ public class Player {
     private void performAttack(List<Enemy> enemies, Camera camera) {
         Rectangle attackHitbox;
         if (facingLeft) {
-            attackHitbox = new Rectangle(x - size+24, y, size, size); // Attack to the left
+            attackHitbox = new Rectangle(x - size + 24, y, size, size); // Attack to the left
         } else {
-            attackHitbox = new Rectangle(x + size-24, y, size, size); // Attack to the right
+            attackHitbox = new Rectangle(x + size - 24, y, size, size); // Attack to the right
         }
 
         for (Enemy enemy : enemies) {
@@ -245,7 +261,7 @@ public class Player {
         if (isAttacking) {
             currentFrames = facingLeft ? attackingFramesLeft : attackingFrames;
             // Check if the attack animation duration has passed
-            if (System.currentTimeMillis() - attackStartTime >= currentFrames.size() * frameDuration / 1.6 ) { // Faster attack animation
+            if (System.currentTimeMillis() - attackStartTime >= currentFrames.size() * frameDuration / 1.6) { // Faster attack animation
                 isAttacking = false;
                 attackHit = false; // Reset attack hit flag
                 attackInProgress = false; // Reset attack in progress flag
@@ -277,7 +293,7 @@ public class Player {
             }
 
             if (facingLeft) {
-                SaxionApp.drawImage(currentFrames.get(currentFrame), x - camera.getX()-40 , y - camera.getY() - 35, size + 60, size + 60);
+                SaxionApp.drawImage(currentFrames.get(currentFrame), x - camera.getX() - 40, y - camera.getY() - 35, size + 60, size + 60);
             } else {
                 SaxionApp.drawImage(currentFrames.get(currentFrame), x - camera.getX() - 20, y - camera.getY() - 35, size + 60, size + 60);
             }
@@ -326,6 +342,7 @@ public class Player {
 
     public void takeDamage(int damage) {
         health -= damage;
+        lastDamageTime = System.currentTimeMillis(); // Reset health regen timer
         if (health <= 0) {
             // Handle player death (e.g., game over logic)
             System.out.println("Player is dead");
