@@ -132,4 +132,76 @@ public class AnimationLoader {
        // attackingFramesLeft.add("assets/images/Player-left/attack/Player-l38.png");
         return attackingFramesLeft;
     }
+
+    public static List<String> loadEnemyIdleFramesLeft() {
+        List<String> idleFramesLeft = new ArrayList<>();
+        idleFramesLeft.add("assets/images/Enemy/idle_left/Enemy1.png");
+        idleFramesLeft.add("assets/images/Enemy/idle_left/Enemy2.png");
+        idleFramesLeft.add("assets/images/Enemy/idle_left/Enemy3.png");
+        idleFramesLeft.add("assets/images/Enemy/idle_left/Enemy4.png");
+        return idleFramesLeft;
+    }
+
+    public static List<String> loadEnemyIdleFramesRight() {
+        List<String> idleFramesRight = new ArrayList<>();
+        idleFramesRight.add("assets/images/Enemy/idle_right/Enemy1.png");
+        idleFramesRight.add("assets/images/Enemy/idle_right/Enemy2.png");
+        idleFramesRight.add("assets/images/Enemy/idle_right/Enemy3.png");
+        idleFramesRight.add("assets/images/Enemy/idle_right/Enemy4.png");
+        return idleFramesRight;
+    }
+
+    public static List<String> loadEnemyRunningFramesLeft() {
+        List<String> runningFramesLeft = new ArrayList<>();
+        runningFramesLeft.add("assets/images/Enemy/run_left/Enemy1.png");
+        runningFramesLeft.add("assets/images/Enemy/run_left/Enemy2.png");
+        runningFramesLeft.add("assets/images/Enemy/run_left/Enemy3.png");
+        runningFramesLeft.add("assets/images/Enemy/run_left/Enemy4.png");
+        return runningFramesLeft;
+    }
+
+    public static List<String> loadEnemyRunningFramesRight() {
+        List<String> runningFramesRight = new ArrayList<>();
+        runningFramesRight.add("assets/images/Enemy/run_right/Enemy1.png");
+        runningFramesRight.add("assets/images/Enemy/run_right/Enemy2.png");
+        runningFramesRight.add("assets/images/Enemy/run_right/Enemy3.png");
+        runningFramesRight.add("assets/images/Enemy/run_right/Enemy4.png");
+        return runningFramesRight;
+    }
+
+    public static List<String> loadEnemyAttackingFramesLeft() {
+        List<String> attackingFramesLeft = new ArrayList<>();
+        attackingFramesLeft.add("assets/images/Enemy/attack_left/Enemy1.png");
+        attackingFramesLeft.add("assets/images/Enemy/attack_left/Enemy2.png");
+        attackingFramesLeft.add("assets/images/Enemy/attack_left/Enemy3.png");
+        attackingFramesLeft.add("assets/images/Enemy/attack_left/Enemy4.png");
+        return attackingFramesLeft;
+    }
+
+    public static List<String> loadEnemyAttackingFramesRight() {
+        List<String> attackingFramesRight = new ArrayList<>();
+        attackingFramesRight.add("assets/images/Enemy/attack_right/Enemy1.png");
+        attackingFramesRight.add("assets/images/Enemy/attack_right/Enemy2.png");
+        attackingFramesRight.add("assets/images/Enemy/attack_right/Enemy3.png");
+        attackingFramesRight.add("assets/images/Enemy/attack_right/Enemy4.png");
+        return attackingFramesRight;
+    }
+
+    public static List<String> loadEnemyDeathFramesLeft() {
+        List<String> deathFramesLeft = new ArrayList<>();
+        deathFramesLeft.add("assets/images/Enemy/death_left/Enemy1.png");
+        deathFramesLeft.add("assets/images/Enemy/death_left/Enemy2.png");
+        deathFramesLeft.add("assets/images/Enemy/death_left/Enemy3.png");
+        deathFramesLeft.add("assets/images/Enemy/death_left/Enemy4.png");
+        return deathFramesLeft;
+    }
+
+    public static List<String> loadEnemyDeathFramesRight() {
+        List<String> deathFramesRight = new ArrayList<>();
+        deathFramesRight.add("assets/images/Enemy/death_right/Enemy1.png");
+        deathFramesRight.add("assets/images/Enemy/death_right/Enemy2.png");
+        deathFramesRight.add("assets/images/Enemy/death_right/Enemy3.png");
+        deathFramesRight.add("assets/images/Enemy/death_right/Enemy4.png");
+        return deathFramesRight;
+    }
 }
