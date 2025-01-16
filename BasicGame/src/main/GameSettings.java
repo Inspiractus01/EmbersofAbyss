@@ -3,7 +3,7 @@ package main;
 public class GameSettings {
     // Core settings
     public static final int originalTileSize = 16; // Default tile size
-    public static int scale = 3; // Scale factor (can be updated dynamically)
+    public static int scale = 4; // Scale factor (can be updated dynamically)
     public static int tileSize = originalTileSize * scale; // Final tile size (scaled) 48 is default size
 
     // Screen settings

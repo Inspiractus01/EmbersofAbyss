@@ -56,6 +56,9 @@ public class Player {
     private final int collisionBoxHeight = size - 0; // 0 pixels smaller in height
     private Rectangle collisionBox;
 
+    // Direction the player is facing
+    private boolean facingLeft = false;
+
     public Player() {
         // Initialize the collision box
         updateCollisionBox();
@@ -117,18 +120,20 @@ public class Player {
         if (activeKeys.contains(KeyEvent.VK_A)) {
             if (!willCollide(x - moveSpeed, y, tiles)) {
                 x -= moveSpeed; // Move left
+                facingLeft = true;
             }
         }
         if (activeKeys.contains(KeyEvent.VK_D)) {
             if (!willCollide(x + moveSpeed, y, tiles)) {
                 x += moveSpeed; // Move right
+                facingLeft = false;
             }
         }
 
         // Update vertical movement
         if (isJumping || !isOnGround(tiles)) {
-            y += verticalVelocity / 2;
-            verticalVelocity += gravity / 2; // Simulate gravity
+            y += verticalVelocity / 1.7;
+            verticalVelocity += gravity / 3; // Simulate gravity
 
             // Check for collision when moving upwards
             if (verticalVelocity < 0) {
@@ -238,7 +243,12 @@ public class Player {
     }
 
     private void performAttack(List<Enemy> enemies, Camera camera) {
-        Rectangle attackHitbox = new Rectangle(x + 35, y, size, size);  //To change the attack hitbox size, change the values of x or add some to the size
+        Rectangle attackHitbox;
+        if (facingLeft) {
+            attackHitbox = new Rectangle(x - size, y, size, size); // Attack to the left
+        } else {
+            attackHitbox = new Rectangle(x + size, y, size, size); // Attack to the right
+        }
 
         for (Enemy enemy : enemies) {
             if (attackHitbox.intersects(enemy.getBounds())) {
