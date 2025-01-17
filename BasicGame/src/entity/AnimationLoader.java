@@ -67,7 +67,16 @@ public class AnimationLoader {
       //  attackingFrames.add("assets/images/Player/attack/Player82.png");
         return attackingFrames;
     }
+    public static List<String> loadHitFrames() {
+        List<String> hitFrames = new ArrayList<>();
+        hitFrames.add("assets/images/Player/hit/Player83.png");
+        hitFrames.add("assets/images/Player/hit/Player84.png");
+        hitFrames.add("assets/images/Player/hit/Player85.png");
+        hitFrames.add("assets/images/Player/hit/Player86.png");
 
+      //  attackingFrames.add("assets/images/Player/attack/Player82.png");
+        return hitFrames;
+    }
 
     //left------------------------------------------------------------
     public static List<String> loadIdleFramesLeft() {
@@ -85,6 +94,16 @@ public class AnimationLoader {
         idleFramesLeft.add("assets/images/Player-left/idle/Player-l11.png");
         idleFramesLeft.add("assets/images/Player-left/idle/Player-l12.png");
         return idleFramesLeft;
+    }
+    public static List<String> loadHitFramesLeft() {
+        List<String> hitFramesLeft = new ArrayList<>();
+        hitFramesLeft.add("assets/images/Player-left/hit/Player-l39.png");
+        hitFramesLeft.add("assets/images/Player-left/hit/Player-l40.png");
+        hitFramesLeft.add("assets/images/Player-left/hit/Player-l41.png");
+        hitFramesLeft.add("assets/images/Player-left/hit/Player-l42.png");
+
+      //  attackingFrames.add("assets/images/Player/attack/Player82.png");
+        return hitFramesLeft;
     }
 
     public static List<String> loadWalkingFramesLeft() {
@@ -277,4 +296,29 @@ public class AnimationLoader {
         
         return deathFramesRight;
     }
+
+    public static List<String> loadEnemyHitFramesRight() {
+        List<String> hitFramesRight = new ArrayList<>();
+        hitFramesRight.add("assets/images/Enemy/hit/hit-r1.png");
+        hitFramesRight.add("assets/images/Enemy/hit/hit-r2.png");
+        hitFramesRight.add("assets/images/Enemy/hit/hit-r3.png");
+        hitFramesRight.add("assets/images/Enemy/hit/hit-r4.png");
+        hitFramesRight.add("assets/images/Enemy/hit/hit-r5.png");
+    
+        return hitFramesRight;
+    }
+
+    public static List<String> loadEnemyHitFramesLeft() {
+        List<String> hitFramesLeft = new ArrayList<>();
+        hitFramesLeft.add("assets/images/Enemy/hit/hit-l1.png");
+        hitFramesLeft.add("assets/images/Enemy/hit/hit-l2.png");
+        hitFramesLeft.add("assets/images/Enemy/hit/hit-l3.png");
+        hitFramesLeft.add("assets/images/Enemy/hit/hit-l4.png");
+        hitFramesLeft.add("assets/images/Enemy/hit/hit-l5.png");
+       
+    
+        return hitFramesLeft;
+    }
 }
+
+
