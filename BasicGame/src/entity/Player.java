@@ -33,7 +33,7 @@ public class Player {
     private final int staminaDepletion = 20;
     private final int staminaAttack = 15;
     private long lastStaminaChange = 0;
-    private final int staminaRegenDelay = 3000;
+    private final int staminaRegenDelay = 2500;
     private boolean hasJumped = false; // Flag to track jump initiation
     private int health = 100;
     private final int maxHealth = 100;
@@ -164,7 +164,7 @@ public class Player {
         }
 
         // Cool down jumping
-        if (!canJump && System.currentTimeMillis() - lastJumpTime >= 500) {
+        if (!canJump && System.currentTimeMillis() - lastJumpTime >= 200) {
             if (isOnGround(tiles)) { // Ensure player is on the ground before allowing jump reset
                 canJump = true;
             }
