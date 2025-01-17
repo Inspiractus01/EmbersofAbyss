@@ -15,7 +15,7 @@ import main.GameSettings;
 import game.Camera;
 
 public class Player {
-    private int x = 500;
+    private int x = 600;
     private int y = 500 - GameSettings.tileSize;
     private final int size = GameSettings.tileSize;
     private final int moveSpeed = 4;
@@ -26,6 +26,8 @@ public class Player {
     private boolean canJump = true;
     private long lastJumpTime = 0;
     private final Set<Integer> activeKeys = new HashSet<>();
+    private int souls = 0;
+    private int enemyCount = 13;
     private int stamina = 100;
     private final int maxStamina = 100;
     private final int staminaDepletion = 20;
@@ -255,6 +257,7 @@ public class Player {
         for (Enemy enemy : enemies) {
             if (attackHitbox.intersects(enemy.getBounds())) {
                 enemy.takeDamage(10);
+                souls++;
             }
         }
 
@@ -394,6 +397,10 @@ public class Player {
 
     public int getStamina() {
         return stamina;
+    }
+
+    public int getSouls(){
+        return souls;
     }
 
     public int getMaxStamina() {

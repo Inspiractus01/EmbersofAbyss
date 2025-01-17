@@ -6,6 +6,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class UI {
+    int barWidth = 200;
+    int barHeight = 20;
+
     private ArrayList<String> healthBarImages;
     private ArrayList<String> staminaBarImages;
 
@@ -33,5 +36,19 @@ public class UI {
         String imagePath = staminaBarImages.get(index);
 
         SaxionApp.drawImage(imagePath, 10, 45);
+    }
+
+    public void drawSoulsCounter(int souls){
+        int filledWidth = souls * 7;
+        
+        if(filledWidth > 200){
+            filledWidth = 200;
+        }
+
+        SaxionApp.setFill(Color.GRAY);
+        SaxionApp.drawRectangle(10, 70, barWidth, barHeight);
+
+        SaxionApp.setFill(Color.MAGENTA);
+        SaxionApp.drawRectangle(10, 70, filledWidth, barHeight);
     }
 }
