@@ -296,4 +296,29 @@ public class AnimationLoader {
         
         return deathFramesRight;
     }
+
+    public static List<String> loadEnemyHitFramesRight() {
+        List<String> hitFramesRight = new ArrayList<>();
+        hitFramesRight.add("assets/images/Enemy/hit/hit-r1.png");
+        hitFramesRight.add("assets/images/Enemy/hit/hit-r2.png");
+        hitFramesRight.add("assets/images/Enemy/hit/hit-r3.png");
+        hitFramesRight.add("assets/images/Enemy/hit/hit-r4.png");
+        hitFramesRight.add("assets/images/Enemy/hit/hit-r5.png");
+    
+        return hitFramesRight;
+    }
+
+    public static List<String> loadEnemyhitFramesLeft() {
+        List<String> hitFramesLeft = new ArrayList<>();
+        hitFramesLeft.add("assets/images/Enemy/hit/hit-l1.png");
+        hitFramesLeft.add("assets/images/Enemy/hit/hit-l2.png");
+        hitFramesLeft.add("assets/images/Enemy/hit/hit-l3.png");
+        hitFramesLeft.add("assets/images/Enemy/hit/hit-l4.png");
+        hitFramesLeft.add("assets/images/Enemy/hit/hit-l5.png");
+       
+    
+        return hitFramesLeft;
+    }
 }
+
+

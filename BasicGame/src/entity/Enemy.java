@@ -41,6 +41,10 @@ public class Enemy {
     private List<String> attackingFramesRight = new ArrayList<>();
     private List<String> deathFramesLeft = new ArrayList<>();
     private List<String> deathFramesRight = new ArrayList<>();
+
+    private List<String> hitFramesRight = new ArrayList<>();
+    private List<String> hitFramesLeft = new ArrayList<>();
+
     private int currentFrame = 0;
     private long lastFrameTime = 0;
     private final int frameDuration = 100; // Duration for each frame in milliseconds
@@ -66,6 +70,8 @@ public class Enemy {
         attackingFramesRight = AnimationLoader.loadEnemyAttackingFramesRight();
         deathFramesLeft = AnimationLoader.loadEnemyDeathFramesLeft();
         deathFramesRight = AnimationLoader.loadEnemyDeathFramesRight();
+        hitFramesRight= AnimationLoader.loadEnemyHitFramesRight();
+        hitFramesLeft= AnimationLoader.loadEnemyhitFramesLeft();
     }
 
     public void takeDamage(int damage) {
