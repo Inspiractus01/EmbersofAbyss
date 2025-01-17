@@ -40,12 +40,20 @@ public class Level {
                             tiles.add(new Wall_tile(x * tileSize, y * tileSize, tileSize, tileSize, true));
                             break;
 
-                        case '3':
+                        case '3': // Platform tile
                             tiles.add(new Platform_tile(x * tileSize, y * tileSize, tileSize, tileSize, true));
                             break;
 
                         case '4': // Ground tile
                             tiles.add(new Under_tile(x * tileSize, y * tileSize, tileSize, tileSize, true));
+                            break;
+
+                        case '5': // Sign
+                        tiles.add(new Sign(x * tileSize, y * tileSize, tileSize, tileSize, false));
+                            break;
+
+                        case '6': // Fountain
+                        tiles.add(new Fountain(x * tileSize, y * tileSize, tileSize, tileSize, true));
                             break;
 
                         case '9': // Enemy

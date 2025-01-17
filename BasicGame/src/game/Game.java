@@ -29,6 +29,7 @@ public class Game implements GameLoop {
     public void removeEnemy(Enemy enemy) {
         enemies.remove(enemy);
     }
+    
 
     @Override
     public void loop() {
@@ -48,6 +49,7 @@ public class Game implements GameLoop {
         SaxionApp.setBorderColor(Color.gray);
         ui.drawHealthBar(player.getHealth());
         ui.drawStaminaBar(player.getStamina(), player.getMaxStamina());
+        ui.drawSoulsCounter(player.getSouls());
 
         for (Enemy enemy : enemies) {
             if (!enemy.isDead()) {
