@@ -67,7 +67,16 @@ public class AnimationLoader {
       //  attackingFrames.add("assets/images/Player/attack/Player82.png");
         return attackingFrames;
     }
+    public static List<String> loadHitFrames() {
+        List<String> hitFrames = new ArrayList<>();
+        hitFrames.add("assets/images/Player/hit/Player83.png");
+        hitFrames.add("assets/images/Player/hit/Player84.png");
+        hitFrames.add("assets/images/Player/hit/Player85.png");
+        hitFrames.add("assets/images/Player/hit/Player86.png");
 
+      //  attackingFrames.add("assets/images/Player/attack/Player82.png");
+        return hitFrames;
+    }
 
     //left------------------------------------------------------------
     public static List<String> loadIdleFramesLeft() {
@@ -85,6 +94,16 @@ public class AnimationLoader {
         idleFramesLeft.add("assets/images/Player-left/idle/Player-l11.png");
         idleFramesLeft.add("assets/images/Player-left/idle/Player-l12.png");
         return idleFramesLeft;
+    }
+    public static List<String> loadHitFramesLeft() {
+        List<String> hitFramesLeft = new ArrayList<>();
+        hitFramesLeft.add("assets/images/Player-left/hit/Player-l39.png");
+        hitFramesLeft.add("assets/images/Player-left/hit/Player-l40.png");
+        hitFramesLeft.add("assets/images/Player-left/hit/Player-l41.png");
+        hitFramesLeft.add("assets/images/Player-left/hit/Player-l42.png");
+
+      //  attackingFrames.add("assets/images/Player/attack/Player82.png");
+        return hitFramesLeft;
     }
 
     public static List<String> loadWalkingFramesLeft() {
