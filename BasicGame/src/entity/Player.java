@@ -51,8 +51,8 @@ public class Player {
     private boolean attackInProgress = false; // Flag to indicate if attack animation is in progress
 
     //sound effects
-    private final String swordSoundPath = "resources/sound/Sword.wav";
-    private final String jumpSoundPath = "resources/sound/Jump.wav";
+    private final String swordSoundPath = "resources/sounds/Sword.wav";
+    private final String jumpSoundPath = "resources/sounds/Jump.wav";
 
     // Animation frames
     private List<String> idleFrames = new ArrayList<>();

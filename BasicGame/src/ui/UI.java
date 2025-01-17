@@ -3,18 +3,22 @@ package ui;
 import nl.saxion.app.SaxionApp;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class UI {
+    private ArrayList<String> healthBarImages;
+
+    public UI() {
+        healthBarImages = new ArrayList<>();
+        for (int i = 1; i <= 20; i++) {
+            healthBarImages.add("assets/images/ui/healthbar/h" + i + ".png");
+        }
+    }
+
     public void drawHealthBar(int health) {
-        int barWidth = 200;
-        int barHeight = 20;
-        int filledWidth = (int) ((health / 100.0) * barWidth);
-
-        SaxionApp.setFill(new Color(50, 50, 50));
-        SaxionApp.drawRectangle(10, 10, barWidth, barHeight);
-
-        SaxionApp.setFill(Color.RED);
-        SaxionApp.drawRectangle(10, 10, filledWidth, barHeight);
+        int index = Math.max(0, Math.min(19, (int) Math.ceil((100 - health) / 5.0)));
+        String imagePath = healthBarImages.get(index);
+        SaxionApp.drawImage(imagePath, 10, 10);
     }
 
     public void drawStaminaBar(int stamina, int maxStamina) {
