@@ -27,9 +27,10 @@ public class Game implements GameLoop {
 
     @Override
     public void init() {
+       
         level = new Level("BasicGame/levels/level1.map", this);
         enemies = level.getEnemies(); // Load enemies from level
-        camera = new Camera(player.getX(), player.getY());
+        camera = new Camera(player.getX(), player.getY()-100);
         audioManager.playBackgroundMusic("resources/sounds/background_music-silent.wav");
         gameState = "Menu";
     }
@@ -37,7 +38,6 @@ public class Game implements GameLoop {
     public void removeEnemy(Enemy enemy) {
         enemies.remove(enemy);
     }
-    
 
     @Override
     public void loop() {
