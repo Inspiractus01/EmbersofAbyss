@@ -84,7 +84,7 @@ public class Enemy {
             die();
         } else {
             isHit = true;
-                    SoundManager.playSound(hitSoundPath);
+            SoundManager.playSound(hitSoundPath);
             hitStartTime = System.currentTimeMillis();
         }
     }
@@ -223,6 +223,16 @@ public class Enemy {
         } else {
             return new Rectangle(x - attackBoxWidth, y, attackBoxWidth, attackBoxHeight);
         }
+    }
+
+    public boolean isVisible(Camera camera) {
+        int cameraX = camera.getX();
+        int cameraY = camera.getY();
+        int screenWidth = GameSettings.screenWidth;
+        int screenHeight = GameSettings.screenHeight;
+
+        return x + size > cameraX && x < cameraX + screenWidth &&
+               y + size > cameraY && y < cameraY + screenHeight;
     }
 
     public void draw(Camera camera) {

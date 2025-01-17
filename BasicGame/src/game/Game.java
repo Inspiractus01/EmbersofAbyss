@@ -12,6 +12,7 @@ import entity.Enemy;
 import entity.Player;
 import nl.saxion.app.SaxionApp;
 import main.GameSettings;
+
 public class Game implements GameLoop {
     private final Player player = new Player();
     private final UI ui = new UI();
@@ -22,27 +23,28 @@ public class Game implements GameLoop {
     private final String backgroundImagePath = "assets/images/background 1.png"; 
     private final int screenWidth = GameSettings.screenWidth;
     private final int screenHeight = GameSettings.screenHeight;
+    
+
     @Override
     public void init() {
+       
         level = new Level("BasicGame/levels/level1.map", this);
         enemies = level.getEnemies(); // Load enemies from level
-        camera = new Camera(player.getX(), player.getY());
+        camera = new Camera(player.getX(), player.getY()-100);
         audioManager.playBackgroundMusic("resources/sounds/background_music-silent.wav");
+        SaxionApp.drawImage(backgroundImagePath, 0, 0, screenWidth, screenHeight);  
     }
 
     public void removeEnemy(Enemy enemy) {
         enemies.remove(enemy);
     }
-    
 
     @Override
     public void loop() {
         SaxionApp.clear();
 
-        // Draw the background image
-
         // Update camera position
-        camera.update(player.getX(), player.getY());
+        camera.update(player.getX(), player.getY()-100);
 
         // Draw the level
         level.draw(camera);
@@ -58,7 +60,7 @@ public class Game implements GameLoop {
         ui.drawSoulsBar(player.getSouls());
 
         for (Enemy enemy : enemies) {
-            if (!enemy.isDead()) {
+            if (!enemy.isDead() && enemy.isVisible(camera)) {
                 enemy.update(player, level.getTiles()); // Update enemy logic with player and tiles
                 enemy.draw(camera);
             }

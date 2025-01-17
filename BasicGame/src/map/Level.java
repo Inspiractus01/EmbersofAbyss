@@ -87,7 +87,9 @@ public class Level {
 
     public void draw(Camera camera) {
         for (Tile tile : tiles) {
-            tile.draw(camera);
+            if (tile.isVisible(camera)) {
+                tile.draw(camera);
+            }
         }
     }
 }
