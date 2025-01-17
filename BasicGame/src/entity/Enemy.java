@@ -22,7 +22,7 @@ public class Enemy {
     private long lastAttackTime = 0;
     private final int attackCooldown = 2000; // Time between attacks in milliseconds
     private final int attackRange = size + 20; // Distance within which the enemy will attack the player
-    private final int detectionRange = 200; // Distance within which the enemy will detect the player
+    private final int detectionRange = 100; // Distance within which the enemy will detect the player
     private final int gravity = 3;
     private int verticalVelocity = 0;
     private Game game;
