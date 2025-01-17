@@ -55,7 +55,7 @@ public class Game implements GameLoop {
         SaxionApp.setBorderColor(Color.gray);
         ui.drawHealthBar(player.getHealth());
         ui.drawStaminaBar(player.getStamina(), player.getMaxStamina());
-        ui.drawSoulsCounter(player.getSouls());
+        ui.drawSoulsBar(player.getSouls());
 
         for (Enemy enemy : enemies) {
             if (!enemy.isDead()) {
