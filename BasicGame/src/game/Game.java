@@ -12,6 +12,7 @@ import entity.Enemy;
 import entity.Player;
 import nl.saxion.app.SaxionApp;
 import main.GameSettings;
+import main.Menu;
 public class Game implements GameLoop {
     private final Player player = new Player();
     private final UI ui = new UI();
@@ -22,12 +23,15 @@ public class Game implements GameLoop {
     private final String backgroundImagePath = "assets/images/background 1.png"; 
     private final int screenWidth = GameSettings.screenWidth;
     private final int screenHeight = GameSettings.screenHeight;
+    private String gameState;
+
     @Override
     public void init() {
         level = new Level("BasicGame/levels/level1.map", this);
         enemies = level.getEnemies(); // Load enemies from level
         camera = new Camera(player.getX(), player.getY());
         audioManager.playBackgroundMusic("resources/sounds/background_music-silent.wav");
+        gameState = "Menu";
     }
 
     public void removeEnemy(Enemy enemy) {
@@ -39,34 +43,47 @@ public class Game implements GameLoop {
     public void loop() {
         SaxionApp.clear();
 
-        // Draw the background image
+        if (gameState.equalsIgnoreCase("Menu")) {
+            Menu.drawOptions();
+        }else if(gameState.equalsIgnoreCase("Play")){
+            // Draw the background image
 
-        // Update camera position
-        camera.update(player.getX(), player.getY());
+            // Update camera position
+            camera.update(player.getX(), player.getY());
 
-        // Draw the level
-        level.draw(camera);
+            // Draw the level
+            level.draw(camera);
 
-        // Update and render the player
-        player.update(enemies, level.getTiles(), camera);
-        player.render(camera);
+            // Update and render the player
+            player.update(enemies, level.getTiles(), camera);
+            player.render(camera);
 
-        // Draw the UI elements
-        SaxionApp.setBorderColor(Color.gray);
-        ui.drawHealthBar(player.getHealth());
-        ui.drawStaminaBar(player.getStamina(), player.getMaxStamina());
-        ui.drawSoulsBar(player.getSouls());
+            // Draw the UI elements
+            SaxionApp.setBorderColor(Color.gray);
+            ui.drawHealthBar(player.getHealth());
+            ui.drawStaminaBar(player.getStamina(), player.getMaxStamina());
+            ui.drawSoulsBar(player.getSouls());
 
-        for (Enemy enemy : enemies) {
-            if (!enemy.isDead()) {
-                enemy.update(player, level.getTiles()); // Update enemy logic with player and tiles
-                enemy.draw(camera);
+            for (Enemy enemy : enemies) {
+                if (!enemy.isDead()) {
+                    enemy.update(player, level.getTiles()); // Update enemy logic with player and tiles
+                    enemy.draw(camera);
+                }
             }
-        }
+        }  
     }
 
     @Override
     public void keyboardEvent(KeyboardEvent keyboardEvent) {
+        if (gameState.equalsIgnoreCase("menu")) {
+            if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_ENTER || keyboardEvent.getKeyCode() == KeyboardEvent.VK_1) {
+                gameState = "Play";
+            } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_ESCAPE || keyboardEvent.getKeyCode() == KeyboardEvent.VK_3) {
+                SaxionApp.quit();
+            } else if (keyboardEvent.getKeyCode() == KeyboardEvent.VK_2 ) {
+                    gameState = "Settings";
+                }
+            }
         player.handleKeyboard(keyboardEvent);
     }
 
