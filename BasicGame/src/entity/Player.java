@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import game.SoundManager;
 
 import main.GameSettings;
 import game.Camera;
@@ -48,19 +49,26 @@ public class Player {
     private boolean attackHit = false; // Flag to indicate when the attack should hit
     private boolean attackInProgress = false; // Flag to indicate if attack animation is in progress
 
+    //sound effects
+    private final String swordSoundPath = "resources/sounds/Sword.wav";
+    private final String jumpSoundPath = "resources/sounds/Jump.wav";
+    private final String hitSoundPath = "resources/sounds/hit.wav";
+
     // Animation frames
     private List<String> idleFrames = new ArrayList<>();
     private List<String> walkingFrames = new ArrayList<>();
     private List<String> jumpingFrames = new ArrayList<>();
     private List<String> fallingFrames = new ArrayList<>();
     private List<String> attackingFrames = new ArrayList<>();
+    private List<String> hitFrames = new ArrayList<>();
 
     private List<String> idleFramesLeft = new ArrayList<>();
     private List<String> walkingFramesLeft = new ArrayList<>();
     private List<String> jumpingFramesLeft = new ArrayList<>();
     private List<String> fallingFramesLeft = new ArrayList<>();
     private List<String> attackingFramesLeft = new ArrayList<>();
-    
+    private List<String> hitFramesLeft = new ArrayList<>();
+
     private int currentFrame = 0;
     private long lastFrameTime = 0;
     private final int frameDuration = 100; // Duration for each frame in milliseconds
@@ -74,6 +82,9 @@ public class Player {
     // Direction the player is facing
     private boolean facingLeft = false;
 
+    private boolean isHit = false; // Flag to track if the player is hit
+    private long hitStartTime = 0; // Time when the hit animation started
+
     public Player() {
         // Initialize the collision box
         updateCollisionBox();
@@ -86,11 +97,13 @@ public class Player {
         jumpingFrames = AnimationLoader.loadJumpingFrames();
         fallingFrames = AnimationLoader.loadFallingFrames();
         attackingFrames = AnimationLoader.loadAttackingFrames();
+        hitFrames = AnimationLoader.loadHitFrames();
         idleFramesLeft = AnimationLoader.loadIdleFramesLeft();
         walkingFramesLeft = AnimationLoader.loadWalkingFramesLeft();
         jumpingFramesLeft = AnimationLoader.loadJumpingFramesLeft();
         fallingFramesLeft = AnimationLoader.loadFallingFramesLeft();
         attackingFramesLeft = AnimationLoader.loadAttackingFramesLeft();
+        hitFramesLeft = AnimationLoader.loadHitFramesLeft();
     }
 
     public void update(List<Enemy> enemies, List<Tile> tiles, Camera camera) {
@@ -262,7 +275,13 @@ public class Player {
         SaxionApp.drawRectangle(collisionBox.x - camera.getX(), collisionBox.y - camera.getY(), collisionBox.width, collisionBox.height);
         // Determine the current animation frames
         List<String> currentFrames;
-        if (isAttacking) {
+        if (isHit) {
+            currentFrames = facingLeft ? hitFramesLeft : hitFrames;
+            // Check if the hit animation duration has passed
+            if (System.currentTimeMillis() - hitStartTime >= currentFrames.size() * frameDuration) {
+                isHit = false; // Reset hit flag after animation
+            }
+        } else if (isAttacking) {
             currentFrames = facingLeft ? attackingFramesLeft : attackingFrames;
             // Check if the attack animation duration has passed
             if (System.currentTimeMillis() - attackStartTime >= currentFrames.size() * frameDuration / 1.6) { // Faster attack animation
@@ -326,6 +345,7 @@ public class Player {
                 verticalVelocity = -20;
                 stamina -= staminaDepletion;
                 lastStaminaChange = System.currentTimeMillis();
+                SoundManager.playSound(jumpSoundPath);
             }
             if (keyCode == KeyEvent.VK_K && System.currentTimeMillis() - lastAttackTime > attackCooldown && stamina >= staminaDepletion) {
                 isAttacking = true;
@@ -335,6 +355,7 @@ public class Player {
                 attackInProgress = true; // Set attack in progress flag
                 lastStaminaChange = System.currentTimeMillis(); 
                 stamina -= staminaAttack;
+                SoundManager.playSound(swordSoundPath);
             }
         } else {
             activeKeys.remove(keyCode);
@@ -347,6 +368,14 @@ public class Player {
     public void takeDamage(int damage) {
         health -= damage;
         lastDamageTime = System.currentTimeMillis(); // Reset health regen timer
+
+        // Play hit sound
+        SoundManager.playSound(hitSoundPath);
+
+        // Set hit animation
+        isHit = true;
+        hitStartTime = System.currentTimeMillis();
+
         if (health <= 0) {
             // Handle player death (e.g., game over logic)
             System.out.println("Player is dead");
