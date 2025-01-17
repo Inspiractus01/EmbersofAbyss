@@ -4,6 +4,7 @@ import nl.saxion.app.SaxionApp;
 import java.awt.Color;
 import java.awt.Rectangle;
 import game.Game;
+import game.SoundManager;
 import main.GameSettings;
 import game.Camera;
 import map.Tile;
@@ -16,6 +17,7 @@ public class Enemy {
     private int size = GameSettings.tileSize;
     private int health = 30;
     private boolean isDead = false;
+    private boolean isHit = false;
     private int moveSpeed = 1;
     private int runSpeed = 2; // Speed when running towards the player
     private int leftBorder, rightBorder, topBorder, bottomBorder;
@@ -31,6 +33,8 @@ public class Enemy {
     private final int attackDelay = 1000; // 2 seconds delay for attack animation
     private boolean playerDetected = false;
     private boolean facingRight = true;
+    private long hitStartTime = 0;
+    private final int hitDuration = 500; // Duration for hit animation in milliseconds
 
     // Animation frames
     private List<String> idleFramesLeft = new ArrayList<>();
@@ -41,7 +45,6 @@ public class Enemy {
     private List<String> attackingFramesRight = new ArrayList<>();
     private List<String> deathFramesLeft = new ArrayList<>();
     private List<String> deathFramesRight = new ArrayList<>();
-
     private List<String> hitFramesRight = new ArrayList<>();
     private List<String> hitFramesLeft = new ArrayList<>();
 
@@ -49,6 +52,7 @@ public class Enemy {
     private long lastFrameTime = 0;
     private final int frameDuration = 100; // Duration for each frame in milliseconds
     private List<String> previousFrames = null; // To track the previous animation frames
+    private final String hitSoundPath = "resources/sounds/hit-enemy.wav";
 
     public Enemy(int startX, int startY, int leftBorder, int rightBorder, int topBorder, int bottomBorder, Game game) {
         this.x = startX;
@@ -70,14 +74,18 @@ public class Enemy {
         attackingFramesRight = AnimationLoader.loadEnemyAttackingFramesRight();
         deathFramesLeft = AnimationLoader.loadEnemyDeathFramesLeft();
         deathFramesRight = AnimationLoader.loadEnemyDeathFramesRight();
-        hitFramesRight= AnimationLoader.loadEnemyHitFramesRight();
-        hitFramesLeft= AnimationLoader.loadEnemyhitFramesLeft();
+        hitFramesRight = AnimationLoader.loadEnemyHitFramesRight();
+        hitFramesLeft = AnimationLoader.loadEnemyHitFramesLeft();
     }
 
     public void takeDamage(int damage) {
         health -= damage;
         if (health <= 0) {
             die();
+        } else {
+            isHit = true;
+                    SoundManager.playSound(hitSoundPath);
+            hitStartTime = System.currentTimeMillis();
         }
     }
 
@@ -100,6 +108,13 @@ public class Enemy {
     public void update(Player player, List<Tile> tiles) {
         if (isDead) {
             return;
+        }
+
+        long currentTime = System.currentTimeMillis();
+
+        // Reset hit state after hit duration
+        if (isHit && currentTime - hitStartTime >= hitDuration) {
+            isHit = false;
         }
 
         // Apply gravity
@@ -126,8 +141,6 @@ public class Enemy {
         } else {
             verticalVelocity = 0;
         }
-
-        long currentTime = System.currentTimeMillis();
 
         // Check if player is within detection range
         if (Math.abs(player.getX() - x) < detectionRange && Math.abs(player.getY() - y) < detectionRange) {
@@ -187,6 +200,8 @@ public class Enemy {
     private List<String> getCurrentFrames() {
         if (isDead) {
             return facingRight ? deathFramesRight : deathFramesLeft;
+        } else if (isHit) {
+            return facingRight ? hitFramesRight : hitFramesLeft;
         } else if (isAttacking) {
             return facingRight ? attackingFramesRight : attackingFramesLeft;
         } else if (playerDetected || moveSpeed != 0) {
@@ -215,7 +230,7 @@ public class Enemy {
             List<String> currentFrames = getCurrentFrames();
             if (!currentFrames.isEmpty() && currentFrame < currentFrames.size()) {
                 String currentFrameImage = currentFrames.get(currentFrame);
-                SaxionApp.drawImage(currentFrameImage, x - camera.getX(), y - camera.getY()-29, size+50, size+50);
+                SaxionApp.drawImage(currentFrameImage, x - camera.getX(), y - camera.getY() - 29, size + 50, size + 50);
             }
 
             // Draw attack range
@@ -224,9 +239,9 @@ public class Enemy {
             SaxionApp.setBorderColor(transparentOrange);
             Rectangle attackBox = getAttackBox();
             if (facingRight) {
-                SaxionApp.drawRectangle(attackBox.x - camera.getX()-30, attackBox.y - camera.getY(), attackBox.width+50, attackBox.height);
+                SaxionApp.drawRectangle(attackBox.x - camera.getX() - 30, attackBox.y - camera.getY(), attackBox.width + 50, attackBox.height);
             } else {
-                SaxionApp.drawRectangle(attackBox.x - camera.getX()+50, attackBox.y - camera.getY(), attackBox.width+50, attackBox.height);
+                SaxionApp.drawRectangle(attackBox.x - camera.getX() + 50, attackBox.y - camera.getY(), attackBox.width + 50, attackBox.height);
             }
         }
     }

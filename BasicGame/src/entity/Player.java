@@ -50,7 +50,7 @@ public class Player {
     //sound effects
     private final String swordSoundPath = "resources/sounds/Sword.wav";
     private final String jumpSoundPath = "resources/sounds/Jump.wav";
-    private final String hitSoundPath = "resources/sounds/Hit.wav";
+    private final String hitSoundPath = "resources/sounds/hit.wav";
 
     // Animation frames
     private List<String> idleFrames = new ArrayList<>();

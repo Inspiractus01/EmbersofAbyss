@@ -308,7 +308,7 @@ public class AnimationLoader {
         return hitFramesRight;
     }
 
-    public static List<String> loadEnemyhitFramesLeft() {
+    public static List<String> loadEnemyHitFramesLeft() {
         List<String> hitFramesLeft = new ArrayList<>();
         hitFramesLeft.add("assets/images/Enemy/hit/hit-l1.png");
         hitFramesLeft.add("assets/images/Enemy/hit/hit-l2.png");
