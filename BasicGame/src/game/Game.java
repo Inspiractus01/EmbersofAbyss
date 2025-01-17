@@ -11,7 +11,7 @@ import java.util.List;
 import entity.Enemy;
 import entity.Player;
 import nl.saxion.app.SaxionApp;
-
+import main.GameSettings;
 public class Game implements GameLoop {
     private final Player player = new Player();
     private final UI ui = new UI();
@@ -19,7 +19,9 @@ public class Game implements GameLoop {
     private Level level;
     private Camera camera;
     private SoundManager audioManager = new SoundManager();
-
+    private final String backgroundImagePath = "assets/images/background 1.png"; 
+    private final int screenWidth = GameSettings.screenWidth;
+    private final int screenHeight = GameSettings.screenHeight;
     @Override
     public void init() {
         level = new Level("BasicGame/levels/level1.map", this);
@@ -35,6 +37,8 @@ public class Game implements GameLoop {
     @Override
     public void loop() {
         SaxionApp.clear();
+
+        // Draw the background image
 
         // Update camera position
         camera.update(player.getX(), player.getY());
